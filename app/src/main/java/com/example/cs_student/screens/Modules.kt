@@ -71,6 +71,7 @@ fun SubjectCard(subject: SubjectItem, modifier: Modifier = Modifier) {
     Card(
         modifier = modifier.fillMaxWidth(),
         shape = RoundedCornerShape(16.dp),
+        onClick = {},
         colors = CardDefaults.cardColors(
             containerColor = CardSurface
         )

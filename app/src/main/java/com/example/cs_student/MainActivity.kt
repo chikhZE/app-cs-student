@@ -51,6 +51,14 @@ fun App() {
             composable("modules_screen") {
                 ModulesScreen(modifier = Modifier.padding(innerPadding))
             }
+
+            composable("add_screen") {
+                Text("this is admin only")
+            }
+            composable("settings_screen") {
+                Text("This is setting screen")
+            }
+
         }
     }
 }

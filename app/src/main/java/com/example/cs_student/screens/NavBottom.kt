@@ -56,23 +56,22 @@ fun NavBottom(
                     }
                 }
             },
-
             icon = { Icon(Icons.Filled.LibraryBooks, contentDescription = null, tint = Color.White) },
-            label = { Text(text = /*stringResource(R.string.settings)*/"Models" , color = Color.White) },
+            label = { Text(text = /*stringResource(R.string.settings)*/"Modules" , color = Color.White) },
             colors = NavigationBarItemDefaults.colors(
                 indicatorColor = TechBlue
             )
         )
         NavigationBarItem(
-            selected = false/*currentRoute == "add_screen"*/,
-            onClick = {/*
+            selected = currentRoute == "add_screen",
+            onClick = {
                 if(currentRoute != "add_screen") {
                     navController.navigate("add_screen"){
                         popUpTo("home_screen") {inclusive = false}
                         launchSingleTop = true
 
                     }
-                }*/
+                }
 
             },
 
@@ -83,8 +82,16 @@ fun NavBottom(
             )
         )
         NavigationBarItem(
-            selected = false,
-            onClick = {/**/  },
+            selected = currentRoute == "settings_screen",
+            onClick = {
+                if(currentRoute != "settings_screen") {
+                    navController.navigate("settings_screen"){
+                        popUpTo("home_screen") {inclusive = false}
+                        launchSingleTop = true
+
+                    }
+                }
+            },
 
             icon = { Icon(Icons.Filled.Settings, contentDescription = null, tint = Color.White) },
             label = { Text(text = /*stringResource(R.string.settings)*/"Settings" , color = Color.White) },
