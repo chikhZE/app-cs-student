@@ -24,24 +24,23 @@ import com.example.cs_student.ui.theme.TechBlue
 
 @Composable
 fun NavBottom(
-    //navController: NavController
+    navController: NavController
 ) {
-    //val navBackStackEntry by navController.currentBackStackEntryAsState()
-    //val currentRoute = navBackStackEntry?.destination?.route
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentRoute = navBackStackEntry?.destination?.route
     NavigationBar(
         containerColor = DarkBackground,
         tonalElevation = 8.dp
     ) {
         NavigationBarItem(
-            selected = true /*currentRoute == "home_screen"*/,
-            onClick = {/*
+            selected = currentRoute == "home_screen",
+            onClick = {
                 if(currentRoute != "home_screen") {
                     navController.navigate("home_screen"){
                         popUpTo("home_screen") {inclusive = false}
                     }
-                }*/
+                }
             },
-
             icon = { Icon(Icons.Filled.Home, contentDescription = null, tint = Color.White) },
             label = { Text(text = /*stringResource(R.string.settings)*/"Home" , color = Color.White) },
             colors = NavigationBarItemDefaults.colors(
@@ -49,8 +48,14 @@ fun NavBottom(
             )
         )
         NavigationBarItem(
-            selected = false,
-            onClick = {/**/  },
+            selected = currentRoute == "models_screen",
+            onClick = {
+                if(currentRoute != "models_screen") {
+                    navController.navigate("models_screen"){
+                        popUpTo("home_screen") {inclusive = false}
+                    }
+                }
+            },
 
             icon = { Icon(Icons.Filled.LibraryBooks, contentDescription = null, tint = Color.White) },
             label = { Text(text = /*stringResource(R.string.settings)*/"Models" , color = Color.White) },
