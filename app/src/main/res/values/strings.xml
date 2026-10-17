@@ -1,3 +1,18 @@
 <resources>
     <string name="app_name">CS-student</string>
+    <string name="study_space_tag">YOUR STUDY SPACE</string>
+    <string name="hello_future">Hello, future </string>
+    <string name="computer_scientist">computer scientist.</string>
+    <string name="study_space_desc">Everything you need for your first year at USTHB, all in one place. Courses, videos, and resources to support your studies.</string>
+    <string name="explore_modules">Explore modules \u2192</string>
+    <string name="latest_announcements">Latest announcements</string>
+    <string name="announcements_subtitle">News and updates from your student space.</string>
+    <string name="updates_count">2 updates</string>
+    <string name="tag_important">IMPORTANT</string>
+    <string name="exam_date">15 Oct 2026</string>
+    <string name="exam_title">S1 Exam Schedule</string>
+    <string name="exam_desc">First-semester examinations begin on Monday, January 4, 2027.</string>
+    <string name="tag_welcome">WELCOME</string>
+    <string name="welcome_title">Welcome to your first year!</string>
+    <string name="welcome_desc">Find your courses, tutorials, and resources here to get your year at USTHB off to a great start.</string>
 </resources>

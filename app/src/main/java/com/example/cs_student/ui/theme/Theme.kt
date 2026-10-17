@@ -9,18 +9,23 @@ import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 
 private val DarkColorScheme = darkColorScheme(
-    primary = Purple80,
-    secondary = PurpleGrey80,
-    tertiary = Pink80
+    primary = TechBlue,          // الأزرق للعناصر الرئيسية والأزرار
+    secondary = HackerGreen,     // الأخضر للتمييز والإشعارات أو الشارات
+    background = DarkBackground, // خلفية التطبيق العامة
+    surface = CardSurface,       // خلفية البطاقات (Cards) والـ TopBar
+    onPrimary = Color.White,     // لون النص فوق الزر الأزرق
+    onBackground = Color(0xFFECEFF4), // لون النصوص العامة ليكون واضحاً ومريحاً
+    onSurface = Color(0xFFECEFF4)    // لون النصوص داخل البطاقات
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = Purple40,
-    secondary = PurpleGrey40,
-    tertiary = Pink40
+   // primary = Purple40,
+    //secondary = PurpleGrey40,
+    //tertiary = Pink40
 
     /* Other default colors to override
     background = Color(0xFFFFFBFE),
@@ -35,7 +40,7 @@ private val LightColorScheme = lightColorScheme(
 
 @Composable
 fun CSstudentTheme(
-    darkTheme: Boolean = isSystemInDarkTheme(),
+    darkTheme: Boolean = true,
     // Dynamic color is available on Android 12+
     dynamicColor: Boolean = true,
     content: @Composable () -> Unit

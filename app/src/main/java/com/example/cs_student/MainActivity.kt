@@ -11,6 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.cs_student.screens.NavBottom
 import com.example.cs_student.ui.theme.CSstudentTheme
 
 class MainActivity : ComponentActivity() {
@@ -19,12 +20,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             CSstudentTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
+                App()
             }
         }
     }
@@ -38,10 +34,21 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
     )
 }
 
-@Preview(showBackground = true)
+@Preview(showBackground = true, showSystemUi = true
+)
 @Composable
 fun GreetingPreview() {
     CSstudentTheme {
         Greeting("Android")
+    }
+}
+
+
+@Composable
+fun App() {
+    Scaffold(
+        bottomBar = { NavBottom() }
+    ) { innerPadding ->
+        com.example.cs_student.screens.HomeScreen(modifier = Modifier.padding(innerPadding))
     }
 }
