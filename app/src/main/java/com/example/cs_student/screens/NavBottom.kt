@@ -48,10 +48,10 @@ fun NavBottom(
             )
         )
         NavigationBarItem(
-            selected = currentRoute == "models_screen",
+            selected = currentRoute == "modules_screen",
             onClick = {
-                if(currentRoute != "models_screen") {
-                    navController.navigate("models_screen"){
+                if(currentRoute != "modules_screen") {
+                    navController.navigate("modules_screen"){
                         popUpTo("home_screen") {inclusive = false}
                     }
                 }

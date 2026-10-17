@@ -16,6 +16,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.cs_student.screens.HomeScreen
+import com.example.cs_student.screens.ModulesScreen
 import com.example.cs_student.screens.NavBottom
 import com.example.cs_student.ui.theme.CSstudentTheme
 
@@ -47,8 +48,8 @@ fun App() {
             composable("home_screen") {
                 HomeScreen(modifier = Modifier.padding(innerPadding))
             }
-            composable("models_screen") {
-                Text("Screen 2")
+            composable("modules_screen") {
+                ModulesScreen(modifier = Modifier.padding(innerPadding))
             }
         }
     }
