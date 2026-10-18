@@ -28,7 +28,7 @@ fun SettingsScreen(
 
     Surface(
         modifier = modifier.fillMaxSize(),
-        color = DarkBackground // #121212
+        color = DarkBackground
     ) {
         Column(
             modifier = Modifier
@@ -50,7 +50,7 @@ fun SettingsScreen(
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(16.dp),
                 colors = CardDefaults.cardColors(
-                    containerColor = CardSurface // #1E1E1E
+                    containerColor = CardSurface
                 )
             ) {
                 Column(
