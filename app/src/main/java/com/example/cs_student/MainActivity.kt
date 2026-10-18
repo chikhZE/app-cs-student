@@ -31,12 +31,15 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.cs_student.screens.HomeScreen
 import com.example.cs_student.screens.LoginScreen
 import com.example.cs_student.screens.ModulesScreen
 import com.example.cs_student.screens.NavBottom
 import com.example.cs_student.screens.SettingsScreen
+import com.example.cs_student.ui.screens.ModuleDetailScreen
+import com.example.cs_student.ui.screens.ResourcesListScreen
 import com.example.cs_student.ui.theme.CSstudentTheme
 import com.google.firebase.auth.FirebaseAuth
 
@@ -81,10 +84,12 @@ fun RootNavigation() {
 @Composable
 fun MainWithBottomBarScreen(rootNavController : NavController,studentName: String) {
     val navController = rememberNavController()
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentRoute = navBackStackEntry?.destination?.route
     val context = LocalContext.current
     val isConnected by observeNetworkConnectivity(context).collectAsState(initial = true)
     Scaffold(
-        bottomBar = { NavBottom(navController) }
+        bottomBar = { if(currentRoute != "module_detail_screen") NavBottom(navController) }
     ) { innerPadding ->
         Box() {
             NavHost(
@@ -94,8 +99,8 @@ fun MainWithBottomBarScreen(rootNavController : NavController,studentName: Strin
                 composable("home_screen") {
                     HomeScreen(modifier = Modifier.padding(innerPadding),studentName,navController)
                 }
-                composable("modules_screen") {
-                    ModulesScreen(modifier = Modifier.padding(innerPadding))
+                composable("modules_screen",) {
+                    ModulesScreen(modifier = Modifier.padding(innerPadding),navController)
                 }
                 composable("add_screen") {
                     Text(modifier = Modifier.padding(innerPadding), text = "this is admin only")
@@ -106,6 +111,10 @@ fun MainWithBottomBarScreen(rootNavController : NavController,studentName: Strin
                             popUpTo("main_flow") { inclusive = true }
                         }
                     })
+                }
+                composable("module_detail_screen") {
+                    ResourcesListScreen(/*Modifier.padding(innerPadding)*/"ALGO","pdfs",{navController.popBackStack()},)
+
                 }
             }
             if (!isConnected) {

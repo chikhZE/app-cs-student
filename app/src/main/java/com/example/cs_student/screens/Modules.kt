@@ -31,6 +31,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.cs_student.ui.theme.CSstudentTheme
 import com.example.cs_student.ui.theme.CardSurface
 import com.example.cs_student.ui.theme.DarkBackground
@@ -43,7 +44,7 @@ data class SubjectItem(
 )
 
 @Composable
-fun ModulesScreen(modifier: Modifier = Modifier) {
+fun ModulesScreen(modifier: Modifier = Modifier,navController: NavController) {
     val subjects = listOf(
         SubjectItem("Algo", Icons.Default.Code, HackerGreen),
         SubjectItem("CRI / STRM", Icons.Default.Storage, Color(0xFFFFB74D)),
@@ -61,17 +62,17 @@ fun ModulesScreen(modifier: Modifier = Modifier) {
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         items(subjects) { subject ->
-            SubjectCard(subject = subject)
+            SubjectCard(subject = subject,Modifier,{navController.navigate("module_detail_screen")})
         }
     }
 }
 
 @Composable
-fun SubjectCard(subject: SubjectItem, modifier: Modifier = Modifier) {
+fun SubjectCard(subject: SubjectItem, modifier: Modifier = Modifier,onClick: () -> Unit) {
     Card(
         modifier = modifier.fillMaxWidth(),
         shape = RoundedCornerShape(16.dp),
-        onClick = {},
+        onClick = {onClick()},
         colors = CardDefaults.cardColors(
             containerColor = CardSurface
         )
@@ -118,7 +119,7 @@ fun SubjectCard(subject: SubjectItem, modifier: Modifier = Modifier) {
         }
     }
 }
-
+/*
 @Preview(showBackground = true, backgroundColor = 0xFF121212)
 @Composable
 fun ModulesScreenPreview() {
@@ -126,3 +127,4 @@ fun ModulesScreenPreview() {
         ModulesScreen()
     }
 }
+*/
