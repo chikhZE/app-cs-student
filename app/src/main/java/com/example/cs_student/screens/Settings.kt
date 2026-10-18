@@ -37,14 +37,14 @@ fun SettingsScreen(
             horizontalAlignment = Alignment.Start,
             verticalArrangement = Arrangement.Top
         ) {
-            Text(
+            /*Text(
                 text = "Settings",
                 fontSize = 28.sp,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.onBackground
             )
 
-            Spacer(modifier = Modifier.height(32.dp))
+            Spacer(modifier = Modifier.height(32.dp))*/
 
             Card(
                 modifier = Modifier.fillMaxWidth(),

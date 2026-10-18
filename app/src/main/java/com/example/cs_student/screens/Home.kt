@@ -21,13 +21,18 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -42,6 +47,8 @@ import com.example.cs_student.data.NewsViewModel
 import com.example.cs_student.ui.theme.CardSurface
 import com.example.cs_student.ui.theme.DarkBackground
 import com.example.cs_student.ui.theme.HackerGreen
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @Composable
 fun HomeScreen(
@@ -51,60 +58,76 @@ fun HomeScreen(
     viewModel: NewsViewModel = viewModel(),
 ) {
     val newsList by viewModel.newsList.collectAsState()
+    var isRefreshing by remember { mutableStateOf(false) }
+    val coroutineScope = rememberCoroutineScope()
+    PullToRefreshBox(
+        isRefreshing = isRefreshing,
+        onRefresh = {
+            coroutineScope.launch {
+                isRefreshing = true
+                viewModel.refreshNewsData()
+                delay(1000)
+                isRefreshing = false
+            }
+        },
+        modifier = Modifier.fillMaxSize()
 
-    LazyColumn(
-        modifier = modifier
-            .fillMaxSize()
-            .background(DarkBackground)
-            .padding(16.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        item {
-            StudySpaceCard(
-                studentName = studentName,
-                buttonOnClick = {
-                    navController.navigate("modules_screen")
-                },
-            )
-        }
+        LazyColumn(
+            modifier = modifier
+                .fillMaxSize()
+                .background(DarkBackground)
+                .padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            item {
+                StudySpaceCard(
+                    studentName = studentName,
+                    buttonOnClick = {
+                        navController.navigate("modules_screen")
+                    },
+                )
+            }
 
-        item {
-            Spacer(modifier = Modifier.height(4.dp))
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.Bottom
-            ) {
-                Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+            item {
+                Spacer(modifier = Modifier.height(4.dp))
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.Bottom
+                ) {
+                    Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                        Text(
+                            text = stringResource(R.string.latest_announcements),
+                            color = Color.White,
+                            fontSize = 20.sp,
+                            fontWeight = FontWeight.Bold
+                        )
+                        Text(
+                            text = stringResource(R.string.announcements_subtitle),
+                            color = Color(0xFF9E9E9E),
+                            fontSize = 13.sp
+                        )
+                    }
                     Text(
-                        text = stringResource(R.string.latest_announcements),
-                        color = Color.White,
-                        fontSize = 20.sp,
-                        fontWeight = FontWeight.Bold
-                    )
-                    Text(
-                        text = stringResource(R.string.announcements_subtitle),
+                        text = "${newsList.size.toString()} updates",
                         color = Color(0xFF9E9E9E),
-                        fontSize = 13.sp
+                        fontSize = 12.sp
                     )
                 }
-                Text(
-                    text = stringResource(R.string.updates_count),
-                    color = Color(0xFF9E9E9E),
-                    fontSize = 12.sp
+            }
+
+            items(newsList) { news ->
+                AnnouncementCard(
+                    tag = news.tagEn,
+                    date = news.date,
+                    title = news.titleEn,
+                    description = news.descriptionEn
                 )
             }
         }
-
-        items(newsList) { news ->
-            AnnouncementCard(
-                tag = news.tagEn,
-                date = news.date,
-                title = news.titleEn,
-                description = news.descriptionEn
-            )
-        }
     }
+
 }
 
 @Composable
