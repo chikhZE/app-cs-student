@@ -9,6 +9,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -16,7 +17,9 @@ import com.example.cs_student.screens.HomeScreen
 import com.example.cs_student.screens.LoginScreen
 import com.example.cs_student.screens.ModulesScreen
 import com.example.cs_student.screens.NavBottom
+import com.example.cs_student.screens.SettingsScreen
 import com.example.cs_student.ui.theme.CSstudentTheme
+import com.google.firebase.auth.FirebaseAuth
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,14 +36,15 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun RootNavigation() {
     val navController = rememberNavController()
-
+    val currentUser = FirebaseAuth.getInstance().currentUser
+    val startDestinationRoute = if (currentUser != null) "main_flow" else "login_screen"
     NavHost(
         navController = navController,
-        startDestination = "login_screen"
+        startDestination = startDestinationRoute
     ) {
         composable("login_screen") {
             LoginScreen(
-                onGoogleSignInClick = {
+                onLoginSuccess = {
                     navController.navigate("main_flow") {
                         popUpTo("login_screen") { inclusive = true }
                     }
@@ -49,13 +53,13 @@ fun RootNavigation() {
         }
 
         composable("main_flow") {
-            MainWithBottomBarScreen()
+            MainWithBottomBarScreen(navController)
         }
     }
 }
 
 @Composable
-fun MainWithBottomBarScreen() {
+fun MainWithBottomBarScreen(rootNavController : NavController) {
     val navController = rememberNavController()
 
     Scaffold(
@@ -75,7 +79,11 @@ fun MainWithBottomBarScreen() {
                 Text(modifier = Modifier.padding(innerPadding), text = "this is admin only")
             }
             composable("settings_screen") {
-                Text(modifier = Modifier.padding(innerPadding), text = "This is setting screen")
+                SettingsScreen(Modifier.padding(innerPadding),{
+                    rootNavController.navigate("login_screen") {
+                        popUpTo("main_flow") { inclusive = true }
+                    }
+                })
             }
         }
     }

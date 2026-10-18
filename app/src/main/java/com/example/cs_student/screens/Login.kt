@@ -1,5 +1,6 @@
 package com.example.cs_student.screens
 
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -8,9 +9,11 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Login
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -18,14 +21,17 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.cs_student.R
+import com.example.cs_student.signInWithGoogle
 import com.example.cs_student.ui.theme.CSstudentTheme
 import com.example.cs_student.ui.theme.DarkBackground
 
 @Preview(showSystemUi = true)
 @Composable
 fun LoginScreen(
-    onGoogleSignInClick: () -> Unit = {}
+    onLoginSuccess: () -> Unit = {}
 ) {
+    val context = LocalContext.current
+    val scope = rememberCoroutineScope()
     CSstudentTheme {
 
         Surface(
@@ -48,7 +54,7 @@ fun LoginScreen(
                     ) {
                         Text(
                             text = "• USTHB L1 CS",
-                            color = MaterialTheme.colorScheme.secondary, // #27C93F
+                            color = MaterialTheme.colorScheme.secondary,
                             fontSize = 12.sp,
                             fontWeight = FontWeight.Bold,
                             modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp)
@@ -80,7 +86,7 @@ fun LoginScreen(
                     modifier = Modifier
                         .size(140.dp)
                         .background(
-                            color = MaterialTheme.colorScheme.surface, // #1E1E1E
+                            color = MaterialTheme.colorScheme.surface,
                             shape = RoundedCornerShape(28.dp)
                         ),
                     contentAlignment = Alignment.Center
@@ -89,7 +95,7 @@ fun LoginScreen(
                         text = "</>",
                         fontSize = 48.sp,
                         fontWeight = FontWeight.ExtraBold,
-                        color = MaterialTheme.colorScheme.secondary // HackerGreen
+                        color = MaterialTheme.colorScheme.secondary
                     )
                 }
 
@@ -98,7 +104,23 @@ fun LoginScreen(
                     modifier = Modifier.fillMaxWidth().padding(bottom = 24.dp)
                 ) {
                     Button(
-                        onClick = onGoogleSignInClick,
+                        onClick = {
+                            signInWithGoogle(
+                                context = context,
+                                scope = scope,
+                                onSuccess = {
+                                    onLoginSuccess()
+                                },
+                                onError = { errorMessage ->
+                                    Toast.makeText(
+                                        context,
+                                        errorMessage,
+                                        Toast.LENGTH_LONG
+                                    ).show()
+
+                                }
+                            )
+                        },
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(56.dp),

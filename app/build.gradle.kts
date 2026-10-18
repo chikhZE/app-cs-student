@@ -9,12 +9,12 @@ plugins {
 
 android {
     namespace = "com.example.cs_student"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.example.cs_student"
         minSdk = 24
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
 
@@ -50,6 +50,7 @@ dependencies {
     // 2. Room Database (with KSP)
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)
+    implementation(libs.googleid)
     ksp(libs.androidx.room.compiler)
 
     // 3. Firebase BoM (Auth & Firestore)
