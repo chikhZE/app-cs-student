@@ -10,30 +10,33 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.cs_student.ui.theme.CardSurface
+import com.example.cs_student.ui.theme.DarkBackground
+import com.example.cs_student.ui.theme.HackerGreen
 import com.google.firebase.auth.FirebaseAuth
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SettingsScreen(
     modifier: Modifier = Modifier,
-    onSignOutClick: () -> Unit
+    onSignOutClick: () -> Unit = {}
 ) {
     var showDialog by remember { mutableStateOf(false) }
 
     Surface(
         modifier = modifier.fillMaxSize(),
-        color = MaterialTheme.colorScheme.background // #121212
+        color = DarkBackground // #121212
     ) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(24.dp),
+                .padding(16.dp),
             horizontalAlignment = Alignment.Start,
             verticalArrangement = Arrangement.Top
         ) {
-            // العنوان الرئيسي للشاشة
             Text(
                 text = "Settings",
                 fontSize = 28.sp,
@@ -43,12 +46,11 @@ fun SettingsScreen(
 
             Spacer(modifier = Modifier.height(32.dp))
 
-            // بطاقة خيارات الحساب (Account Section)
             Card(
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(16.dp),
                 colors = CardDefaults.cardColors(
-                    containerColor = MaterialTheme.colorScheme.surface // #1E1E1E
+                    containerColor = CardSurface // #1E1E1E
                 )
             ) {
                 Column(
@@ -58,12 +60,11 @@ fun SettingsScreen(
                         text = "Account",
                         fontSize = 14.sp,
                         fontWeight = FontWeight.SemiBold,
-                        color = MaterialTheme.colorScheme.secondary // HackerGreen #27C93F
+                        color = HackerGreen
                     )
 
                     Spacer(modifier = Modifier.height(12.dp))
 
-                    // زر تسجيل الخروج داخل البطاقة
                     Button(
                         onClick = { showDialog = true },
                         modifier = Modifier
@@ -71,7 +72,7 @@ fun SettingsScreen(
                             .height(50.dp),
                         shape = RoundedCornerShape(12.dp),
                         colors = ButtonDefaults.buttonColors(
-                            containerColor = Color(0xFF2C1517), // أحمر داكن جدا متناسق مع المظهر اللائلي
+                            containerColor = Color(0xFF2C1517),
                             contentColor = Color(0xFFFF5252)
                         )
                     ) {
@@ -97,7 +98,6 @@ fun SettingsScreen(
         }
     }
 
-    // نافذة تأكيد الخروج
     if (showDialog) {
         AlertDialog(
             onDismissRequest = { showDialog = false },
@@ -118,9 +118,7 @@ fun SettingsScreen(
                 TextButton(
                     onClick = {
                         showDialog = false
-                        // تنفيذ الخروج من فايربيس
                         FirebaseAuth.getInstance().signOut()
-                        // استدعاء دالة الانتقال لشاشة اللوجن
                         onSignOutClick()
                     }
                 ) {
