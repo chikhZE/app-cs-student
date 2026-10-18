@@ -1,7 +1,8 @@
 <resources>
     <string name="app_name">CS-student</string>
     <string name="study_space_tag">YOUR STUDY SPACE</string>
-    <string name="hello_future">Hello, future </string>
+    <string name="hello">Hello </string>
+    <string name="future">future </string>
     <string name="computer_scientist">computer scientist.</string>
     <string name="study_space_desc">Everything you need for your first year at USTHB, all in one place. Courses, videos, and resources to support your studies.</string>
     <string name="explore_modules">Explore modules \u2192</string>

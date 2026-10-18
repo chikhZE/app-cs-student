@@ -37,6 +37,7 @@ class MainActivity : ComponentActivity() {
 fun RootNavigation() {
     val navController = rememberNavController()
     val currentUser = FirebaseAuth.getInstance().currentUser
+    val studentName = currentUser?.displayName ?: "Student"
     val startDestinationRoute = if (currentUser != null) "main_flow" else "login_screen"
     NavHost(
         navController = navController,
@@ -53,13 +54,13 @@ fun RootNavigation() {
         }
 
         composable("main_flow") {
-            MainWithBottomBarScreen(navController)
+            MainWithBottomBarScreen(navController,studentName)
         }
     }
 }
 
 @Composable
-fun MainWithBottomBarScreen(rootNavController : NavController) {
+fun MainWithBottomBarScreen(rootNavController : NavController,studentName: String) {
     val navController = rememberNavController()
 
     Scaffold(
@@ -70,7 +71,7 @@ fun MainWithBottomBarScreen(rootNavController : NavController) {
             startDestination = "home_screen"
         ) {
             composable("home_screen") {
-                HomeScreen(modifier = Modifier.padding(innerPadding))
+                HomeScreen(modifier = Modifier.padding(innerPadding),studentName)
             }
             composable("modules_screen") {
                 ModulesScreen(modifier = Modifier.padding(innerPadding))

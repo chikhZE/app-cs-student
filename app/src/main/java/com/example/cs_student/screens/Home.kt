@@ -41,7 +41,7 @@ import com.example.cs_student.ui.theme.DarkBackground
 import com.example.cs_student.ui.theme.HackerGreen
 
 @Composable
-fun HomeScreen(modifier: Modifier = Modifier) {
+fun HomeScreen(modifier: Modifier = Modifier,studentName: String) {
     val scrollState = rememberScrollState()
     Column(
         modifier = modifier
@@ -51,13 +51,13 @@ fun HomeScreen(modifier: Modifier = Modifier) {
             .padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(20.dp)
     ) {
-        StudySpaceCard()
+        StudySpaceCard(Modifier,studentName)
         AnnouncementsSection()
     }
 }
 
 @Composable
-fun StudySpaceCard(modifier: Modifier = Modifier) {
+fun StudySpaceCard(modifier: Modifier = Modifier,studentName: String) {
     Card(
         modifier = modifier.fillMaxWidth(),
         shape = RoundedCornerShape(20.dp),
@@ -92,7 +92,9 @@ fun StudySpaceCard(modifier: Modifier = Modifier) {
             Text(
                 text = buildAnnotatedString {
                     withStyle(style = SpanStyle(color = Color.White)) {
-                        append(stringResource(R.string.hello_future))
+                        append(stringResource(R.string.hello)," ",studentName,", ",stringResource(R.string.future)," ")
+
+
                     }
                     withStyle(style = SpanStyle(color = HackerGreen)) {
                         append(stringResource(R.string.computer_scientist))
@@ -245,6 +247,6 @@ fun AnnouncementCard(
 @Composable
 fun HomeScreenPreview() {
     CSstudentTheme {
-        HomeScreen()
+        HomeScreen(Modifier,"ZineEddine")
     }
 }
