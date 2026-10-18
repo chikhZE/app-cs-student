@@ -71,7 +71,7 @@ fun MainWithBottomBarScreen(rootNavController : NavController,studentName: Strin
             startDestination = "home_screen"
         ) {
             composable("home_screen") {
-                HomeScreen(modifier = Modifier.padding(innerPadding),studentName)
+                HomeScreen(modifier = Modifier.padding(innerPadding),studentName,navController)
             }
             composable("modules_screen") {
                 ModulesScreen(modifier = Modifier.padding(innerPadding))

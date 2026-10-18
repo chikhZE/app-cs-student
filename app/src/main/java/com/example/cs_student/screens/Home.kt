@@ -22,6 +22,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -34,6 +35,8 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.cs_student.R
 import com.example.cs_student.ui.theme.CSstudentTheme
 import com.example.cs_student.ui.theme.CardSurface
@@ -41,7 +44,7 @@ import com.example.cs_student.ui.theme.DarkBackground
 import com.example.cs_student.ui.theme.HackerGreen
 
 @Composable
-fun HomeScreen(modifier: Modifier = Modifier,studentName: String) {
+fun HomeScreen(modifier: Modifier = Modifier,studentName: String, navController: NavController) {
     val scrollState = rememberScrollState()
     Column(
         modifier = modifier
@@ -51,13 +54,13 @@ fun HomeScreen(modifier: Modifier = Modifier,studentName: String) {
             .padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(20.dp)
     ) {
-        StudySpaceCard(Modifier,studentName)
+        StudySpaceCard(Modifier,studentName, { navController.navigate("modules_screen") })
         AnnouncementsSection()
     }
 }
 
 @Composable
-fun StudySpaceCard(modifier: Modifier = Modifier,studentName: String) {
+fun StudySpaceCard(modifier: Modifier = Modifier,studentName: String,buttonOnClick : () -> Unit) {
     Card(
         modifier = modifier.fillMaxWidth(),
         shape = RoundedCornerShape(20.dp),
@@ -113,7 +116,7 @@ fun StudySpaceCard(modifier: Modifier = Modifier,studentName: String) {
             )
 
             Button(
-                onClick = {},
+                onClick = {buttonOnClick()},
                 colors = ButtonDefaults.buttonColors(
                     containerColor = HackerGreen,
                     contentColor = Color.Black
@@ -242,11 +245,12 @@ fun AnnouncementCard(
         }
     }
 }
-
+/*
 @Preview(showBackground = true, backgroundColor = 0xFF121212)
 @Composable
 fun HomeScreenPreview() {
     CSstudentTheme {
-        HomeScreen(Modifier,"ZineEddine")
+        HomeScreen(Modifier,"ZineEddine",)
     }
 }
+*/
