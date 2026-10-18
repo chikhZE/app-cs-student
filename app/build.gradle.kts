@@ -56,6 +56,7 @@ dependencies {
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.auth)
     implementation(libs.firebase.firestore)
+    implementation("com.google.firebase:firebase-analytics")
 
     // 4. Hilt (Dependency Injection with KSP)
     implementation(libs.hilt.android)
