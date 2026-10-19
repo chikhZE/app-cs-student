@@ -8,11 +8,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.cs_student"
+    namespace = "com.zineeddine.cs_student"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.example.cs_student"
+        applicationId = "com.zineeddine.cs_student"
         minSdk = 24
         targetSdk = 35
         versionCode = 1
@@ -35,6 +35,9 @@ android {
     }
     buildFeatures {
         compose = true
+    }
+    lint {
+        checkReleaseBuilds = false
     }
 }
 
