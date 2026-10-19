@@ -123,7 +123,7 @@ fun ResourceCard(
 ) {
     val (icon, iconTint) = when (resource.type) {
         "Video" -> Pair(Icons.Default.PlayCircle, Color(0xFFFF5252))
-        "PDF" -> Pair(Icons.Default.Description, NeonGreen)
+        "pdf" -> Pair(Icons.Default.Description, NeonGreen)
         else -> Pair(Icons.Default.Link, Color(0xFF448AFF))
     }
 
