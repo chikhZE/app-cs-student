@@ -74,7 +74,7 @@ fun ModuleDetailScreen(
                 title = "Documents",
                 icon = Icons.Default.Description,
                 iconTint = NeonGreen,
-                onClick = { navController.navigate("resources_screen/${moduleCode}/document")}
+                onClick = { navController.navigate("resources_screen/${moduleCode}/pdf")}
             )
 
             CategoryCard(
