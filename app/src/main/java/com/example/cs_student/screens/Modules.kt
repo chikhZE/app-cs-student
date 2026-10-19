@@ -47,7 +47,7 @@ data class SubjectItem(
 fun ModulesScreen(modifier: Modifier = Modifier,navController: NavController) {
     val subjects = listOf(
         SubjectItem("Algo", Icons.Default.Code, HackerGreen),
-        SubjectItem("CRI / STRM", Icons.Default.Storage, Color(0xFFFFB74D)),
+        SubjectItem("CRI-STRM", Icons.Default.Storage, Color(0xFFFFB74D)),
         SubjectItem("MP", Icons.Default.Functions, Color(0xFF9575CD)),
         SubjectItem("Analysis", Icons.Default.Timeline, Color(0xFF64B5F6)),
         SubjectItem("Algebra", Icons.Default.DataObject, Color(0xFFE57373)),
@@ -62,7 +62,7 @@ fun ModulesScreen(modifier: Modifier = Modifier,navController: NavController) {
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         items(subjects) { subject ->
-            SubjectCard(subject = subject,Modifier,{navController.navigate("module_detail_screen")})
+            SubjectCard(subject = subject,Modifier,{navController.navigate("module_detail_screen/${subject.title}")})
         }
     }
 }

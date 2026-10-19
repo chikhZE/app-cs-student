@@ -2,7 +2,14 @@ package com.example.cs_student.ui.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -12,135 +19,118 @@ import androidx.compose.material.icons.automirrored.filled.OpenInNew
 import androidx.compose.material.icons.filled.Description
 import androidx.compose.material.icons.filled.Link
 import androidx.compose.material.icons.filled.PlayCircle
-import androidx.compose.material3.*
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-
-data class ResourceDummyItem(
-    val id: String,
-    val title: String,
-    val description: String,
-    val semester: String, // "S1"  "S2"
-    val resourceType: String, // "PDF", "Video", "Link"
-    val url: String
-)
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.cs_student.data.ResourceItem
+import com.example.cs_student.data.ResourcesListViewModel
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ResourcesListScreen(
     moduleCode: String,
     contentType: String,
-    onBackClick: () -> Unit
+    onBackClick: () -> Unit,
+    viewModel: ResourcesListViewModel = viewModel()
 ) {
+
     val uriHandler = LocalUriHandler.current
+    val resourcesList by viewModel.resources.collectAsState()
+    val isLoading by viewModel.isLoading.collectAsState()
+    val coroutineScope = rememberCoroutineScope()
 
-    val dummyResources = listOf(
-        ResourceDummyItem(
-            id = "1",
-            title = "Cours 01: Introduction aux Algorithmes",
-            description = "Cours 01: Introduction aux Algorithmes Cours 01: Introduction aux Algorithmes Cours 01: Introduction aux Algorithmes",
-            semester = "S1",
-            resourceType = "PDF",
-            url = "https://drive.google.com"
-        ),
-        ResourceDummyItem(
-            id = "2",
-            title = "Série TD N°1 avec Solution",
-            description = "حلول تمارين السلسلة الأولى الخاصة بالسداسي الأول.",
-            semester = "S1",
-            resourceType = "PDF",
-            url = "https://drive.google.com"
-        ),
-        ResourceDummyItem(
-            id = "3",
-            title = "شرح الـ Pointers والـ Memory Management",
-            description = "فيديو تفصيلي يشرح المؤشرات وطريقة التعامل مع الذاكرة بلغة C.",
-            semester = "S2",
-            resourceType = "PDF",
-            url = "https://youtube.com"
-        ),
-        ResourceDummyItem(
-            id = "4",
-            title = "موقع مفيد للممارسة والتمارين (GeeksforGeeks)",
-            description = "رابط موقع يحتوي على مسائل برمجية محلولة لتقوية مستواك.",
-            semester = "S2",
-            resourceType = "PDF",
-            url = "https://geeksforgeeks.org"
-        )
-    )
-
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = {
-                    Column {
-                        Text(
-                            text = moduleCode,
-                            color = TextWhite,
-                            fontSize = 18.sp,
-                            fontWeight = FontWeight.Bold
-                        )
-                        Text(
-                            text = contentType.replaceFirstChar { it.uppercase() },
-                            color = Color.Gray,
-                            fontSize = 12.sp
-                        )
-                    }
-                },
-                navigationIcon = {
-                    IconButton(onClick = onBackClick) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = "Back",
-                            tint = TextWhite
-                        )
-                    }
-                },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = DarkBackground
-                )
-            )
-        },
-        containerColor = DarkBackground
-    ) { innerPadding ->
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(innerPadding)
-                .padding(horizontal = 16.dp, vertical = 8.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp)
-        ) {
-            items(dummyResources) { resource ->
-                ResourceCard(
-                    resource = resource,
-                    onOpenUrl = { url ->
-                        try {
-                            uriHandler.openUri(url)
-                        } catch (e: Exception) {
-
+    PullToRefreshBox(
+        isRefreshing = isLoading,
+        onRefresh = {coroutineScope.launch {
+            viewModel.loadResources()
+        }},
+    ) {
+        Scaffold(
+            topBar = {
+                TopAppBar(
+                    title = {
+                        Column {
+                            Text(
+                                text = moduleCode,
+                                color = TextWhite,
+                                fontSize = 18.sp,
+                                fontWeight = FontWeight.Bold
+                            )
+                            Text(
+                                text = contentType.replaceFirstChar { it.uppercase() },
+                                color = Color.Gray,
+                                fontSize = 12.sp
+                            )
                         }
-                    }
+                    },
+                    navigationIcon = {
+                        IconButton(onClick = onBackClick) {
+                            Icon(
+                                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                                contentDescription = "Back",
+                                tint = TextWhite
+                            )
+                        }
+                    },
+                    colors = TopAppBarDefaults.topAppBarColors(
+                        containerColor = DarkBackground
+                    )
                 )
+            },
+            containerColor = DarkBackground
+        )
+        { innerPadding ->
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(innerPadding)
+                    .padding(horizontal = 16.dp, vertical = 8.dp),
+                verticalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                items(resourcesList) { resource ->
+                    ResourceCard(
+                        resource = resource,
+                        onOpenUrl = { url ->
+                            try {
+                                uriHandler.openUri(url)
+                            } catch (e: Exception) {
+
+                            }
+                        }
+                    )
+                }
             }
         }
     }
+
 }
 
 @Composable
 fun ResourceCard(
-    resource: ResourceDummyItem,
+    resource: ResourceItem,
     onOpenUrl: (String) -> Unit
 ) {
-    val (icon, iconTint) = when (resource.resourceType) {
+    val (icon, iconTint) = when (resource.type) {
         "Video" -> Pair(Icons.Default.PlayCircle, Color(0xFFFF5252))
         "PDF" -> Pair(Icons.Default.Description, NeonGreen)
         else -> Pair(Icons.Default.Link, Color(0xFF448AFF))
@@ -188,7 +178,7 @@ fun ResourceCard(
                     )
 
                     BadgeTag(
-                        text = resource.resourceType,
+                        text = resource.type,
                         backgroundColor = iconTint.copy(alpha = 0.15f),
                         textColor = iconTint
                     )
@@ -208,7 +198,7 @@ fun ResourceCard(
             }
 
             Text(
-                text = resource.title,
+                text = resource.title.getValue("en"),
                 color = TextWhite,
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Bold,
@@ -216,14 +206,14 @@ fun ResourceCard(
                 overflow = TextOverflow.Ellipsis
             )
 
-            Text(
+            /*Text(
                 text = resource.description,
                 color = Color.LightGray,
                 fontSize = 13.sp,
                 maxLines = 3,
                 overflow = TextOverflow.Ellipsis,
                 lineHeight = 18.sp
-            )
+            )*/
         }
     }
 }

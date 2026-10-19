@@ -89,7 +89,7 @@ fun MainWithBottomBarScreen(rootNavController : NavController,studentName: Strin
     val context = LocalContext.current
     val isConnected by observeNetworkConnectivity(context).collectAsState(initial = true)
     Scaffold(
-        bottomBar = { if(currentRoute != "module_detail_screen") NavBottom(navController) }
+        bottomBar = { if(currentRoute != "module_detail_screen/{moduleCode}" && currentRoute != "resources_screen/{moduleCode}/{contentType}") NavBottom(navController) }
     ) { innerPadding ->
         Box() {
             NavHost(
@@ -112,9 +112,20 @@ fun MainWithBottomBarScreen(rootNavController : NavController,studentName: Strin
                         }
                     })
                 }
-                composable("module_detail_screen") {
-                    ResourcesListScreen(/*Modifier.padding(innerPadding)*/"ALGO","pdfs",{navController.popBackStack()},)
-
+                composable("module_detail_screen/{moduleCode}") { backStackEntry ->
+                    val moduleCode = backStackEntry.arguments?.getString("moduleCode") ?: ""
+                    ModuleDetailScreen(moduleCode,navController,{navController.popBackStack()})
+                }
+                composable("resources_screen/{moduleCode}/{contentType}") { backStackEntry ->
+                    val moduleCode = backStackEntry.arguments?.getString("moduleCode") ?: ""
+                    val contentType = backStackEntry.arguments?.getString("contentType") ?: ""
+                    ResourcesListScreen(
+                        moduleCode = moduleCode,
+                        contentType = contentType,
+                        onBackClick = {
+                            navController.popBackStack()
+                        }
+                    )
                 }
             }
             if (!isConnected) {

@@ -20,6 +20,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 
 // الألوان المستخدمة مستوحاة من التصميم
 val DarkBackground = Color(0xFF121212)
@@ -33,7 +34,7 @@ val IconColor = Color(0xFFB0B0B0)
 @Composable
 fun ModuleDetailScreen(
     moduleCode: String,
-    onCategoryClick: (contentType: String) -> Unit,
+    navController: NavController,
     onBackClick: () -> Unit = {}
 ) {
     Scaffold(
@@ -75,7 +76,7 @@ fun ModuleDetailScreen(
                 title = "Documents & Courses",
                 icon = Icons.Default.Description,
                 iconTint = NeonGreen, // تخصيص لون الأيقونة
-                onClick = { /*onCategoryClick("documents") */}
+                onClick = { navController.navigate("resources_screen/${moduleCode}/document")}
             )
 
             // 2. بطاقة الفيديوهات (Videos)
@@ -83,7 +84,7 @@ fun ModuleDetailScreen(
                 title = "Video Tutorials",
                 icon = Icons.Default.PlayCircle,
                 iconTint = Color(0xFFFF5252), // لون محدد للفيديو أو NeonGreen
-                onClick = { /*onCategoryClick("videos")*/ }
+                onClick = { navController.navigate("resources_screen/${moduleCode}/video")}
             )
 
             // 3. بطاقة الروابط المفيدة (Useful Links)
@@ -91,7 +92,7 @@ fun ModuleDetailScreen(
                 title = "Useful Links & Drive",
                 icon = Icons.Default.Link,
                 iconTint = Color(0xFF448AFF),
-                onClick = {/* onCategoryClick("links") */}
+                onClick = { navController.navigate("resources_screen/${moduleCode}/link")}
             )
         }
     }
