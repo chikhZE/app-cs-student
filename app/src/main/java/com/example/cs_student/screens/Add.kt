@@ -16,6 +16,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.cs_student.data.AddContentViewModel
 import com.example.cs_student.ui.theme.DarkBackground
 import com.example.cs_student.ui.theme.HackerGreen
 
@@ -29,17 +31,18 @@ val CrispWhite = Color(0xFFFFFFFF)
 fun AddContentScreen(
     modifier: Modifier = Modifier,
     onPostClick: () -> Unit = {},
-    onBackClick: () -> Unit = {}
+    onBackClick: () -> Unit = {},
+    viewModel: AddContentViewModel = viewModel()
 ) {
-    // Local state variables for form inputs and selections
+    // Local state variables for selections
     var selectedContentType by remember { mutableStateOf("News") } // "News" or "Res"
     var selectedModule by remember { mutableStateOf("") }
     var selectedType by remember { mutableStateOf("") }
-    var resetKey by remember { mutableStateOf(0) }
+    var showConfirmDialog by remember { mutableStateOf(false) }
 
     // Predefined lists for dropdowns
     val contentTypes = listOf("News", "Res")
-    val modulesList = listOf("Algo", "MP", "CRI-STRM", "Archi", "ProbStat")
+    val modulesList = listOf("Algo", "MP", "CRI-STRM", "Analysis", "Algebra", "ICT")
     val typesList = listOf("pdf", "link", "video")
 
     val scrollState = rememberScrollState()
@@ -79,8 +82,9 @@ fun AddContentScreen(
                         )
                     }
                 }
+                if (type != contentTypes.last()) {
                     Spacer(modifier = Modifier.width(8.dp))
-
+                }
             }
         }
 
@@ -92,18 +96,16 @@ fun AddContentScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             if (selectedContentType == "News") {
-                // News Form
-                NewsForm(resetKey = resetKey)
+                NewsForm(viewModel = viewModel)
             } else {
-                // Resource Form
                 ResourceForm(
+                    viewModel = viewModel,
                     modulesList = modulesList,
                     typesList = typesList,
                     selectedModule = selectedModule,
                     onModuleSelect = { selectedModule = it },
                     selectedType = selectedType,
-                    onTypeSelect = { selectedType = it },
-                    resetKey = resetKey
+                    onTypeSelect = { selectedType = it }
                 )
             }
         }
@@ -117,7 +119,9 @@ fun AddContentScreen(
         ) {
             // Post Button
             Button(
-                onClick = onPostClick,
+                onClick = {
+                    showConfirmDialog = true
+                },
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(55.dp),
@@ -139,7 +143,7 @@ fun AddContentScreen(
                 modifier = Modifier
                     .padding(top = 12.dp)
                     .clickable {
-                        resetKey++
+                        viewModel.clearForm()
                         selectedContentType = "News"
                         selectedModule = ""
                         selectedType = ""
@@ -149,40 +153,107 @@ fun AddContentScreen(
             )
         }
     }
+
+    // Confirmation Dialog
+    if (showConfirmDialog) {
+        AlertDialog(
+            onDismissRequest = { showConfirmDialog = false },
+            title = {
+                Text(text = "Confirm Post", color = CrispWhite, fontWeight = FontWeight.Bold)
+            },
+            text = {
+                Text(text = "Are you sure you want to post this content?", color = CrispWhite.copy(alpha = 0.8f))
+            },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        showConfirmDialog = false
+                        viewModel.handlePostSubmission(
+                            contentType = selectedContentType,
+                            moduleCode = selectedModule,
+                            selectedType = selectedType
+                        )
+                        viewModel.clearForm()
+                        selectedModule = ""
+                        selectedType = ""
+                        onPostClick()
+                    }
+                ) {
+                    Text(text = "Post", color = NeonGreen, fontWeight = FontWeight.Bold)
+                }
+            },
+            dismissButton = {
+                TextButton(
+                    onClick = { showConfirmDialog = false }
+                ) {
+                    Text(text = "Cancel", color = CrispWhite.copy(alpha = 0.7f))
+                }
+            },
+            containerColor = DarkGreyField,
+            shape = RoundedCornerShape(16.dp)
+        )
+    }
 }
 
 @Composable
-fun NewsForm(resetKey: Int) {
+fun NewsForm(viewModel: AddContentViewModel) {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
-        FormTextField(label = "Date (Click to select)", modifier = Modifier.padding(bottom = 12.dp), resetKey = resetKey)
-        FormTextField(label = "Title (English)", modifier = Modifier.padding(bottom = 12.dp), resetKey = resetKey)
-        FormTextField(label = "Title (French)", modifier = Modifier.padding(bottom = 12.dp), resetKey = resetKey)
+        FormTextField(
+            label = "Date (Click to select)",
+            value = viewModel.date,
+            onValueChange = { viewModel.date = it },
+            modifier = Modifier.padding(bottom = 12.dp)
+        )
+        FormTextField(
+            label = "Title (English)",
+            value = viewModel.newsTitleEn,
+            onValueChange = { viewModel.newsTitleEn = it },
+            modifier = Modifier.padding(bottom = 12.dp)
+        )
+        FormTextField(
+            label = "Title (French)",
+            value = viewModel.newsTitleFr,
+            onValueChange = { viewModel.newsTitleFr = it },
+            modifier = Modifier.padding(bottom = 12.dp)
+        )
         FormTextField(
             label = "Description (English)",
+            value = viewModel.descEn,
+            onValueChange = { viewModel.descEn = it },
             modifier = Modifier.padding(bottom = 12.dp),
-            isMultiline = true,
-            resetKey = resetKey
+            isMultiline = true
         )
         FormTextField(
             label = "Description (French)",
+            value = viewModel.descFr,
+            onValueChange = { viewModel.descFr = it },
             modifier = Modifier.padding(bottom = 12.dp),
-            isMultiline = true,
-            resetKey = resetKey
+            isMultiline = true
         )
-        FormTextField(label = "Tag (English)", modifier = Modifier.padding(bottom = 12.dp), resetKey = resetKey)
-        FormTextField(label = "Tag (French)", modifier = Modifier.padding(bottom = 12.dp), resetKey = resetKey)
+        FormTextField(
+            label = "Tag (English)",
+            value = viewModel.tagEn,
+            onValueChange = { viewModel.tagEn = it },
+            modifier = Modifier.padding(bottom = 12.dp)
+        )
+        FormTextField(
+            label = "Tag (French)",
+            value = viewModel.tagFr,
+            onValueChange = { viewModel.tagFr = it },
+            modifier = Modifier.padding(bottom = 12.dp)
+        )
     }
 }
 
 @Composable
 fun ResourceForm(
+    viewModel: AddContentViewModel,
     modulesList: List<String>,
     typesList: List<String>,
     selectedModule: String,
     onModuleSelect: (String) -> Unit,
     selectedType: String,
-    onTypeSelect: (String) -> Unit,
-    resetKey: Int
+    onTypeSelect: (String) -> Unit
 ) {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         // Module Dropdown
@@ -194,10 +265,30 @@ fun ResourceForm(
             modifier = Modifier.padding(bottom = 12.dp)
         )
         // Semester Input
-        FormTextField(label = "Semester (e.g., S1, S2)", modifier = Modifier.padding(bottom = 12.dp), resetKey = resetKey)
-        FormTextField(label = "Title (English)", modifier = Modifier.padding(bottom = 12.dp), resetKey = resetKey)
-        FormTextField(label = "Title (French)", modifier = Modifier.padding(bottom = 12.dp), resetKey = resetKey)
-        FormTextField(label = "URL", modifier = Modifier.padding(bottom = 12.dp), resetKey = resetKey)
+        FormTextField(
+            label = "Semester (e.g., S1, S2)",
+            value = viewModel.semester,
+            onValueChange = { viewModel.semester = it },
+            modifier = Modifier.padding(bottom = 12.dp)
+        )
+        FormTextField(
+            label = "Title (English)",
+            value = viewModel.resTitleEn,
+            onValueChange = { viewModel.resTitleEn = it },
+            modifier = Modifier.padding(bottom = 12.dp)
+        )
+        FormTextField(
+            label = "Title (French)",
+            value = viewModel.resTitleFr,
+            onValueChange = { viewModel.resTitleFr = it },
+            modifier = Modifier.padding(bottom = 12.dp)
+        )
+        FormTextField(
+            label = "URL",
+            value = viewModel.url,
+            onValueChange = { viewModel.url = it },
+            modifier = Modifier.padding(bottom = 12.dp)
+        )
         // Resource Type Dropdown
         FormDropdownSelector(
             label = "Type",
@@ -214,15 +305,14 @@ fun ResourceForm(
 @Composable
 fun FormTextField(
     label: String,
+    value: String,
+    onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
-    isMultiline: Boolean = false,
-    resetKey: Int = 0
+    isMultiline: Boolean = false
 ) {
-    var text by remember(resetKey) { mutableStateOf("") }
-
     OutlinedTextField(
-        value = text,
-        onValueChange = { text = it },
+        value = value,
+        onValueChange = onValueChange,
         label = { Text(text = label, color = CrispWhite.copy(alpha = 0.5f)) },
         modifier = modifier.fillMaxWidth(),
         textStyle = LocalTextStyle.current.copy(color = CrispWhite, fontSize = 16.sp),

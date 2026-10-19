@@ -26,7 +26,7 @@ import androidx.navigation.NavController
 val DarkBackground = Color(0xFF121212)
 val CardBackground = Color(0xFF1E1E1E)
 val IconBoxBackground = Color(0xFF282828)
-val NeonGreen = Color(0xFF00FF66) // الأكسنت الأخضر الخاص بك
+val NeonGreen = Color(0xFF00FF66)
 val TextWhite = Color(0xFFEEEEEE)
 val IconColor = Color(0xFFB0B0B0)
 
@@ -73,7 +73,7 @@ fun ModuleDetailScreen(
         ) {
             // 1. بطاقة المستندات (Documents)
             CategoryCard(
-                title = "Documents & Courses",
+                title = "Documents",
                 icon = Icons.Default.Description,
                 iconTint = NeonGreen, // تخصيص لون الأيقونة
                 onClick = { navController.navigate("resources_screen/${moduleCode}/document")}
@@ -81,7 +81,7 @@ fun ModuleDetailScreen(
 
             // 2. بطاقة الفيديوهات (Videos)
             CategoryCard(
-                title = "Video Tutorials",
+                title = "Videos",
                 icon = Icons.Default.PlayCircle,
                 iconTint = Color(0xFFFF5252), // لون محدد للفيديو أو NeonGreen
                 onClick = { navController.navigate("resources_screen/${moduleCode}/video")}
@@ -89,7 +89,7 @@ fun ModuleDetailScreen(
 
             // 3. بطاقة الروابط المفيدة (Useful Links)
             CategoryCard(
-                title = "Useful Links & Drive",
+                title = "Useful Links",
                 icon = Icons.Default.Link,
                 iconTint = Color(0xFF448AFF),
                 onClick = { navController.navigate("resources_screen/${moduleCode}/link")}
