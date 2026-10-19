@@ -86,6 +86,8 @@ fun RootNavigation() {
 
 @Composable
 fun MainWithBottomBarScreen(rootNavController : NavController,studentName: String,mainViewModel: MainViewModel = viewModel()) {
+    val currentUser = FirebaseAuth.getInstance().currentUser
+    //val studentName = currentUser?.displayName ?: "Student"
     val isAdmin by mainViewModel.isAdmin.collectAsState()
     val navController = rememberNavController()
     val navBackStackEntry by navController.currentBackStackEntryAsState()

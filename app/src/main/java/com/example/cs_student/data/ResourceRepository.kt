@@ -24,12 +24,16 @@ class ResourceRepository{
                 val titleMap = map["title"] as? Map<String, String> ?: emptyMap()
                 val type = map["type"] as? String ?: ""
                 val url = map["url"] as? String ?: ""
+                val authorName = map["authorName"] as? String ?: ""
+                val authorPhotoUrl = map["authorPhotoUrl"] as? String ?: ""
 
                 ResourceItem(
                     semester = semester,
                     title = titleMap,
                     type = type,
-                    url = url
+                    url = url,
+                    authorName = authorName,
+                    authorPhotoUrl = authorPhotoUrl
                 )
             }.filter { it.type.equals(contentType, ignoreCase = true) } // تصفية حسب النوع (pdf, video, link)
 
