@@ -28,11 +28,14 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.cs_student.data.MainViewModel
+import com.example.cs_student.screens.AddContentScreen
 import com.example.cs_student.screens.HomeScreen
 import com.example.cs_student.screens.LoginScreen
 import com.example.cs_student.screens.ModulesScreen
@@ -82,14 +85,15 @@ fun RootNavigation() {
 }
 
 @Composable
-fun MainWithBottomBarScreen(rootNavController : NavController,studentName: String) {
+fun MainWithBottomBarScreen(rootNavController : NavController,studentName: String,mainViewModel: MainViewModel = viewModel()) {
+    val isAdmin by mainViewModel.isAdmin.collectAsState()
     val navController = rememberNavController()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
     val context = LocalContext.current
     val isConnected by observeNetworkConnectivity(context).collectAsState(initial = true)
     Scaffold(
-        bottomBar = { if(currentRoute != "module_detail_screen/{moduleCode}" && currentRoute != "resources_screen/{moduleCode}/{contentType}") NavBottom(navController) }
+        bottomBar = { if(currentRoute != "module_detail_screen/{moduleCode}" && currentRoute != "resources_screen/{moduleCode}/{contentType}") NavBottom(navController,isAdmin) }
     ) { innerPadding ->
         Box() {
             NavHost(
@@ -102,9 +106,11 @@ fun MainWithBottomBarScreen(rootNavController : NavController,studentName: Strin
                 composable("modules_screen",) {
                     ModulesScreen(modifier = Modifier.padding(innerPadding),navController)
                 }
+
                 composable("add_screen") {
-                    Text(modifier = Modifier.padding(innerPadding), text = "this is admin only")
+                    AddContentScreen(Modifier.padding(innerPadding),{},{})
                 }
+
                 composable("settings_screen") {
                     SettingsScreen(Modifier.padding(innerPadding),{
                         rootNavController.navigate("login_screen") {

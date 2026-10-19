@@ -24,7 +24,8 @@ import com.example.cs_student.ui.theme.TechBlue
 
 @Composable
 fun NavBottom(
-    navController: NavController
+    navController: NavController,
+    isAdmin: Boolean = false
 ) {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
@@ -62,25 +63,28 @@ fun NavBottom(
                 indicatorColor = TechBlue
             )
         )
-        NavigationBarItem(
-            selected = currentRoute == "add_screen",
-            onClick = {
-                if(currentRoute != "add_screen") {
-                    navController.navigate("add_screen"){
-                        popUpTo("home_screen") {inclusive = false}
-                        launchSingleTop = true
+        if(isAdmin) {
+            NavigationBarItem(
+                selected = currentRoute == "add_screen",
+                onClick = {
+                    if(currentRoute != "add_screen") {
+                        navController.navigate("add_screen"){
+                            popUpTo("home_screen") {inclusive = false}
+                            launchSingleTop = true
 
+                        }
                     }
-                }
 
-            },
+                },
 
-            icon = { Icon(Icons.Filled.Add, contentDescription = null, tint = Color.White) },
-            label = { Text(text = /*stringResource(R.string.settings)*/"Add" , color = Color.White) },
-            colors = NavigationBarItemDefaults.colors(
-                indicatorColor = TechBlue
+                icon = { Icon(Icons.Filled.Add, contentDescription = null, tint = Color.White) },
+                label = { Text(text = /*stringResource(R.string.settings)*/"Add" , color = Color.White) },
+                colors = NavigationBarItemDefaults.colors(
+                    indicatorColor = TechBlue
+                )
             )
-        )
+        }
+
         NavigationBarItem(
             selected = currentRoute == "settings_screen",
             onClick = {
