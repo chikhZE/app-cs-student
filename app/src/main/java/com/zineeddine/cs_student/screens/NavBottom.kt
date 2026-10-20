@@ -18,6 +18,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import com.zineeddine.cs_student.R
 import com.zineeddine.cs_student.ui.theme.DarkBackground
 import com.zineeddine.cs_student.ui.theme.HackerGreen
 import com.zineeddine.cs_student.ui.theme.TechBlue
@@ -43,7 +44,7 @@ fun NavBottom(
                 }
             },
             icon = { Icon(Icons.Filled.Home, contentDescription = null, tint = Color.White) },
-            label = { Text(text = "Home" , color = Color.White) },
+            label = { Text(text = stringResource(R.string.nav_home) , color = Color.White) },
             colors = NavigationBarItemDefaults.colors(
                 indicatorColor = TechBlue
             )
@@ -58,7 +59,7 @@ fun NavBottom(
                 }
             },
             icon = { Icon(Icons.Filled.LibraryBooks, contentDescription = null, tint = Color.White) },
-            label = { Text(text = "Modules" , color = Color.White) },
+            label = { Text(text = stringResource(R.string.nav_modules) , color = Color.White) },
             colors = NavigationBarItemDefaults.colors(
                 indicatorColor = TechBlue
             )
@@ -78,7 +79,7 @@ fun NavBottom(
                 },
 
                 icon = { Icon(Icons.Filled.Add, contentDescription = null, tint = Color.White) },
-                label = { Text(text = "Add" , color = Color.White) },
+                label = { Text(text = stringResource(R.string.nav_add) , color = Color.White) },
                 colors = NavigationBarItemDefaults.colors(
                     indicatorColor = TechBlue
                 )
@@ -98,7 +99,7 @@ fun NavBottom(
             },
 
             icon = { Icon(Icons.Filled.Settings, contentDescription = null, tint = Color.White) },
-            label = { Text(text = "Settings" , color = Color.White) },
+            label = { Text(text = stringResource(R.string.nav_settings) , color = Color.White) },
             colors = NavigationBarItemDefaults.colors(
                 indicatorColor = TechBlue
             )

@@ -1,0 +1,64 @@
+<?xml5 version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">CS-student</string>
+    <string name="study_space_tag">VOTRE ESPACE D\'ÉTUDE</string>
+    <string name="hello">Bonjour </string>
+    <string name="future">futur </string>
+    <string name="computer_scientist">informaticien.</string>
+    <string name="study_space_desc">Tout ce dont vous avez besoin pour votre première année à l\'USTHB, en un seul endroit. Cours, vidéos et ressources pour soutenir vos études.</string>
+    <string name="explore_modules">Explorer les modules \u2192</string>
+    <string name="latest_announcements">Dernières annonces</string>
+    <string name="announcements_subtitle">Actualités et mises à jour de votre espace étudiant.</string>
+    <string name="updates_count">2 mises à jour</string>
+    <string name="tag_important">IMPORTANT</string>
+    <string name="exam_date">15 oct. 2026</string>
+    <string name="exam_title">Calendrier des examens du S1</string>
+    <string name="exam_desc">Les examens du premier semestre débutent le lundi 4 janvier 2027.</string>
+    <string name="tag_welcome">BIENVENUE</string>
+    <string name="welcome_title">Bienvenue en première année !</string>
+    <string name="welcome_desc">Retrouvez ici vos cours, travaux dirigés et ressources pour bien démarrer votre année à l\'USTHB.</string>
+
+    <!-- Add Screen -->
+    <string name="post_content">Publier le contenu</string>
+    <string name="cancel">Annuler</string>
+    <string name="confirm_post">Confirmer la publication</string>
+    <string name="confirm_post_message">Voulez-vous vraiment publier ce contenu ?</string>
+    <string name="post">Publier</string>
+    <string name="form_date_label">Date (Cliquer pour sélectionner)</string>
+    <string name="form_title_en_label">Titre (Anglais)</string>
+    <string name="form_title_fr_label">Titre (Français)</string>
+    <string name="form_desc_en_label">Description (Anglais)</string>
+    <string name="form_desc_fr_label">Description (Français)</string>
+    <string name="form_tag_en_label">Étiquette (Anglais)</string>
+    <string name="form_tag_fr_label">Étiquette (Français)</string>
+    <string name="form_module_label">Module</string>
+    <string name="form_semester_label">Semestre (ex. : S1, S2)</string>
+    <string name="form_url_label">URL</string>
+    <string name="form_type_label">Type</string>
+
+    <!-- Login Screen -->
+    <string name="login_tag">USTHB L1 Informatique</string>
+    <string name="login_welcome_title">Bienvenue sur\nl\'Espace Étudiant CS</string>
+    <string name="login_welcome_desc">Accédez à vos cours, calendriers d\'examens et mises à jour dans un espace 100 % hors ligne.</string>
+    <string name="continue_with_google">Continuer avec Google</string>
+    <string name="login_secure_auth">Authentification rapide et sécurisée via Google</string>
+
+    <!-- Bottom Navigation -->
+    <string name="nav_home">Accueil</string>
+    <string name="nav_modules">Modules</string>
+    <string name="nav_add">Ajouter</string>
+    <string name="nav_settings">Paramètres</string>
+
+    <!-- Settings Screen -->
+    <string name="settings_account">Compte</string>
+    <string name="settings_sign_out">Se déconnecter</string>
+    <string name="settings_sign_out_confirm">Voulez-vous vraiment vous déconnecter de votre compte ?</string>
+    <string name="settings_language">Langue</string>
+    <string name="language_english">English</string>
+    <string name="language_french">Français</string>
+
+    <!-- Module Detail Screen -->
+    <string name="category_documents">Documents</string>
+    <string name="category_videos">Vidéos</string>
+    <string name="category_useful_links">Liens utiles</string>
+</resources>

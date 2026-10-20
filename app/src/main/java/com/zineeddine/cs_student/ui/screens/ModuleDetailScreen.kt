@@ -17,10 +17,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.zineeddine.cs_student.R
 
 val DarkBackground = Color(0xFF121212)
 val CardBackground = Color(0xFF1E1E1E)
@@ -71,21 +73,21 @@ fun ModuleDetailScreen(
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             CategoryCard(
-                title = "Documents",
+                title = stringResource(R.string.category_documents),
                 icon = Icons.Default.Description,
                 iconTint = NeonGreen,
                 onClick = { navController.navigate("resources_screen/${moduleCode}/pdf")}
             )
 
             CategoryCard(
-                title = "Videos",
+                title = stringResource(R.string.category_videos),
                 icon = Icons.Default.PlayCircle,
                 iconTint = Color(0xFFFF5252),
                 onClick = { navController.navigate("resources_screen/${moduleCode}/video")}
             )
 
             CategoryCard(
-                title = "Useful Links",
+                title = stringResource(R.string.category_useful_links),
                 icon = Icons.Default.Link,
                 iconTint = Color(0xFF448AFF),
                 onClick = { navController.navigate("resources_screen/${moduleCode}/link")}

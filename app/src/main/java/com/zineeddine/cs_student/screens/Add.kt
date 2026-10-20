@@ -11,12 +11,14 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.zineeddine.cs_student.R
 import com.zineeddine.cs_student.data.AddContentViewModel
 import com.zineeddine.cs_student.ui.theme.DarkBackground
 import com.zineeddine.cs_student.ui.theme.HackerGreen
@@ -129,7 +131,7 @@ fun AddContentScreen(
                 shape = RoundedCornerShape(27.5.dp)
             ) {
                 Text(
-                    text = "Post Content",
+                    text = stringResource(R.string.post_content),
                     color = DarkBackground,
                     fontWeight = FontWeight.Bold,
                     fontSize = 18.sp
@@ -138,7 +140,7 @@ fun AddContentScreen(
 
             // Cancel Button
             Text(
-                text = "Cancel",
+                text = stringResource(R.string.cancel),
                 color = CrispWhite.copy(alpha = 0.7f),
                 modifier = Modifier
                     .padding(top = 12.dp)
@@ -159,10 +161,10 @@ fun AddContentScreen(
         AlertDialog(
             onDismissRequest = { showConfirmDialog = false },
             title = {
-                Text(text = "Confirm Post", color = CrispWhite, fontWeight = FontWeight.Bold)
+                Text(text = stringResource(R.string.confirm_post), color = CrispWhite, fontWeight = FontWeight.Bold)
             },
             text = {
-                Text(text = "Are you sure you want to post this content?", color = CrispWhite.copy(alpha = 0.8f))
+                Text(text = stringResource(R.string.confirm_post_message), color = CrispWhite.copy(alpha = 0.8f))
             },
             confirmButton = {
                 TextButton(
@@ -179,14 +181,14 @@ fun AddContentScreen(
                         onPostClick()
                     }
                 ) {
-                    Text(text = "Post", color = NeonGreen, fontWeight = FontWeight.Bold)
+                    Text(text = stringResource(R.string.post), color = NeonGreen, fontWeight = FontWeight.Bold)
                 }
             },
             dismissButton = {
                 TextButton(
                     onClick = { showConfirmDialog = false }
                 ) {
-                    Text(text = "Cancel", color = CrispWhite.copy(alpha = 0.7f))
+                    Text(text = stringResource(R.string.cancel), color = CrispWhite.copy(alpha = 0.7f))
                 }
             },
             containerColor = DarkGreyField,
@@ -199,45 +201,45 @@ fun AddContentScreen(
 fun NewsForm(viewModel: AddContentViewModel) {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         FormTextField(
-            label = "Date (Click to select)",
+            label = stringResource(R.string.form_date_label),
             value = viewModel.date,
             onValueChange = { viewModel.date = it },
             modifier = Modifier.padding(bottom = 12.dp)
         )
         FormTextField(
-            label = "Title (English)",
+            label = stringResource(R.string.form_title_en_label),
             value = viewModel.newsTitleEn,
             onValueChange = { viewModel.newsTitleEn = it },
             modifier = Modifier.padding(bottom = 12.dp)
         )
         FormTextField(
-            label = "Title (French)",
+            label = stringResource(R.string.form_title_fr_label),
             value = viewModel.newsTitleFr,
             onValueChange = { viewModel.newsTitleFr = it },
             modifier = Modifier.padding(bottom = 12.dp)
         )
         FormTextField(
-            label = "Description (English)",
+            label = stringResource(R.string.form_desc_en_label),
             value = viewModel.descEn,
             onValueChange = { viewModel.descEn = it },
             modifier = Modifier.padding(bottom = 12.dp),
             isMultiline = true
         )
         FormTextField(
-            label = "Description (French)",
+            label = stringResource(R.string.form_desc_fr_label),
             value = viewModel.descFr,
             onValueChange = { viewModel.descFr = it },
             modifier = Modifier.padding(bottom = 12.dp),
             isMultiline = true
         )
         FormTextField(
-            label = "Tag (English)",
+            label = stringResource(R.string.form_tag_en_label),
             value = viewModel.tagEn,
             onValueChange = { viewModel.tagEn = it },
             modifier = Modifier.padding(bottom = 12.dp)
         )
         FormTextField(
-            label = "Tag (French)",
+            label = stringResource(R.string.form_tag_fr_label),
             value = viewModel.tagFr,
             onValueChange = { viewModel.tagFr = it },
             modifier = Modifier.padding(bottom = 12.dp)
@@ -258,7 +260,7 @@ fun ResourceForm(
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         // Module Dropdown
         FormDropdownSelector(
-            label = "Module",
+            label = stringResource(R.string.form_module_label),
             options = modulesList,
             selectedOption = selectedModule,
             onOptionSelect = onModuleSelect,
@@ -266,32 +268,32 @@ fun ResourceForm(
         )
         // Semester Input
         FormTextField(
-            label = "Semester (e.g., S1, S2)",
+            label = stringResource(R.string.form_semester_label),
             value = viewModel.semester,
             onValueChange = { viewModel.semester = it },
             modifier = Modifier.padding(bottom = 12.dp)
         )
         FormTextField(
-            label = "Title (English)",
+            label = stringResource(R.string.form_title_en_label),
             value = viewModel.resTitleEn,
             onValueChange = { viewModel.resTitleEn = it },
             modifier = Modifier.padding(bottom = 12.dp)
         )
         FormTextField(
-            label = "Title (French)",
+            label = stringResource(R.string.form_title_fr_label),
             value = viewModel.resTitleFr,
             onValueChange = { viewModel.resTitleFr = it },
             modifier = Modifier.padding(bottom = 12.dp)
         )
         FormTextField(
-            label = "URL",
+            label = stringResource(R.string.form_url_label),
             value = viewModel.url,
             onValueChange = { viewModel.url = it },
             modifier = Modifier.padding(bottom = 12.dp)
         )
         // Resource Type Dropdown
         FormDropdownSelector(
-            label = "Type",
+            label = stringResource(R.string.form_type_label),
             options = typesList,
             selectedOption = selectedType,
             onOptionSelect = onTypeSelect,

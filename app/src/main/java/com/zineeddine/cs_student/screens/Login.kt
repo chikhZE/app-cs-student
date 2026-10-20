@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -53,7 +54,7 @@ fun LoginScreen(
                         shape = RoundedCornerShape(12.dp)
                     ) {
                         Text(
-                            text = "• USTHB L1 CS",
+                            text = stringResource(R.string.login_tag),
                             color = MaterialTheme.colorScheme.secondary,
                             fontSize = 12.sp,
                             fontWeight = FontWeight.Bold,
@@ -64,7 +65,7 @@ fun LoginScreen(
                     Spacer(modifier = Modifier.height(24.dp))
 
                     Text(
-                        text = "Welcome to\nCS Student Space",
+                        text = stringResource(R.string.login_welcome_title),
                         fontSize = 30.sp,
                         fontWeight = FontWeight.Bold,
                         color = MaterialTheme.colorScheme.onBackground,
@@ -75,7 +76,7 @@ fun LoginScreen(
                     Spacer(modifier = Modifier.height(12.dp))
 
                     Text(
-                        text = "Access your courses, exam schedules, and updates all in one offline-first space.",
+                        text = stringResource(R.string.login_welcome_desc),
                         fontSize = 14.sp,
                         color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6f),
                         textAlign = TextAlign.Center
@@ -145,7 +146,7 @@ fun LoginScreen(
 
 
                             Text(
-                                text = "Continue with Google",
+                                text = stringResource(R.string.continue_with_google),
                                 fontSize = 16.sp,
                                 fontWeight = FontWeight.SemiBold,
                                 color = Color(0xFF1F1F1F)
@@ -156,7 +157,7 @@ fun LoginScreen(
                     Spacer(modifier = Modifier.height(16.dp))
 
                     Text(
-                        text = "Fast and secure authentication via Google",
+                        text = stringResource(R.string.login_secure_auth),
                         fontSize = 12.sp,
                         color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.4f),
                         textAlign = TextAlign.Center

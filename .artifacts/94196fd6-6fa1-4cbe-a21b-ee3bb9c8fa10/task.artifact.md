@@ -1,7 +1,10 @@
-# Task List - Refactor Package Name to com.zineeddine.cs_student
+# Task List - Extract Hardcoded Strings to strings.xml
 
-- [x] Update `google-services.json` package names
-- [x] Move and refactor main source files (`src/main/java`) package declarations and imports
-- [x] Move and refactor test files (`src/androidTest/java` & `src/test/java`)
-- [x] Verify build with gradle build (`:app:assembleDebug` / `:app:assembleRelease`)
+- [x] Add string resource entries in `res/values/strings.xml`
+- [x] Refactor `Add.kt` to use `stringResource`
+- [x] Refactor `Login.kt` to use `stringResource`
+- [x] Refactor `NavBottom.kt` to use `stringResource`
+- [x] Refactor `Settings.kt` to use `stringResource`
+- [x] Refactor `ModuleDetailScreen.kt` to use `stringResource`
+- [x] Verify build with gradle build (`:app:assembleDebug`)
 - [x] Create walkthrough artifact

@@ -1,5 +1,7 @@
 package com.zineeddine.cs_student.screens
 
+import android.app.Activity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -14,14 +16,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.os.LocaleListCompat
 import coil.compose.AsyncImage
+import com.google.firebase.auth.FirebaseAuth
+import com.zineeddine.cs_student.R
 import com.zineeddine.cs_student.ui.theme.CardSurface
 import com.zineeddine.cs_student.ui.theme.DarkBackground
 import com.zineeddine.cs_student.ui.theme.HackerGreen
-import com.google.firebase.auth.FirebaseAuth
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -30,6 +36,7 @@ fun SettingsScreen(
     onSignOutClick: () -> Unit = {}
 ) {
     var showDialog by remember { mutableStateOf(false) }
+    val context = LocalContext.current
 
     val currentUser = remember { FirebaseAuth.getInstance().currentUser }
     val photoUrl = currentUser?.photoUrl
@@ -45,9 +52,10 @@ fun SettingsScreen(
                 .fillMaxSize()
                 .padding(16.dp),
             horizontalAlignment = Alignment.Start,
-            verticalArrangement = Arrangement.Top
+            verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
 
+            // Account Card
             Card(
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(16.dp),
@@ -59,7 +67,7 @@ fun SettingsScreen(
                     modifier = Modifier.padding(16.dp)
                 ) {
                     Text(
-                        text = "Account",
+                        text = stringResource(R.string.settings_account),
                         fontSize = 14.sp,
                         fontWeight = FontWeight.SemiBold,
                         color = HackerGreen
@@ -141,9 +149,83 @@ fun SettingsScreen(
                             )
                             Spacer(modifier = Modifier.width(8.dp))
                             Text(
-                                text = "Sign Out",
+                                text = stringResource(R.string.settings_sign_out),
                                 fontSize = 15.sp,
                                 fontWeight = FontWeight.Bold
+                            )
+                        }
+                    }
+                }
+            }
+
+            // Language Selection Card
+            Card(
+                modifier = Modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(16.dp),
+                colors = CardDefaults.cardColors(
+                    containerColor = CardSurface
+                )
+            ) {
+                Column(
+                    modifier = Modifier.padding(16.dp)
+                ) {
+                    Text(
+                        text = stringResource(R.string.settings_language),
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        color = HackerGreen
+                    )
+
+                    Spacer(modifier = Modifier.height(16.dp))
+
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(12.dp)
+                    ) {
+                        val currentLang = AppCompatDelegate.getApplicationLocales()[0]?.language ?: "en"
+                        var isFrench by remember { mutableStateOf(currentLang.contains("fr", ignoreCase = true)) }
+
+                        // English Button
+                        Button(
+                            onClick = {
+                                AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags("en"))
+                                (context as? Activity)?.recreate()
+                            },
+                            modifier = Modifier
+                                .weight(1f)
+                                .height(45.dp),
+                            shape = RoundedCornerShape(10.dp),
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = if (!isFrench) HackerGreen else DarkBackground,
+                                contentColor = if (!isFrench) DarkBackground else Color.White
+                            )
+                        ) {
+                            Text(
+                                text = stringResource(R.string.language_english),
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 14.sp
+                            )
+                        }
+
+                        // French Button
+                        Button(
+                            onClick = {
+                                AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags("fr"))
+                                (context as? Activity)?.recreate()
+                            },
+                            modifier = Modifier
+                                .weight(1f)
+                                .height(45.dp),
+                            shape = RoundedCornerShape(10.dp),
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = if (isFrench) HackerGreen else DarkBackground,
+                                contentColor = if (isFrench) DarkBackground else Color.White
+                            )
+                        ) {
+                            Text(
+                                text = stringResource(R.string.language_french),
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 14.sp
                             )
                         }
                     }
@@ -157,14 +239,14 @@ fun SettingsScreen(
             onDismissRequest = { showDialog = false },
             title = {
                 Text(
-                    text = "Sign Out",
+                    text = stringResource(R.string.settings_sign_out),
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.onSurface
                 )
             },
             text = {
                 Text(
-                    text = "Are you sure you want to sign out of your account?",
+                    text = stringResource(R.string.settings_sign_out_confirm),
                     color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
                 )
             },
@@ -176,12 +258,12 @@ fun SettingsScreen(
                         onSignOutClick()
                     }
                 ) {
-                    Text("Sign Out", color = Color(0xFFFF5252), fontWeight = FontWeight.Bold)
+                    Text(stringResource(R.string.settings_sign_out), color = Color(0xFFFF5252), fontWeight = FontWeight.Bold)
                 }
             },
             dismissButton = {
                 TextButton(onClick = { showDialog = false }) {
-                    Text("Cancel", color = MaterialTheme.colorScheme.onSurface)
+                    Text(stringResource(R.string.cancel), color = MaterialTheme.colorScheme.onSurface)
                 }
             },
             containerColor = MaterialTheme.colorScheme.surface,

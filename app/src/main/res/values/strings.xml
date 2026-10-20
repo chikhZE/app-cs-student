@@ -16,4 +16,48 @@
     <string name="tag_welcome">WELCOME</string>
     <string name="welcome_title">Welcome to your first year!</string>
     <string name="welcome_desc">Find your courses, tutorials, and resources here to get your year at USTHB off to a great start.</string>
+
+    <!-- Add Screen -->
+    <string name="post_content">Post Content</string>
+    <string name="cancel">Cancel</string>
+    <string name="confirm_post">Confirm Post</string>
+    <string name="confirm_post_message">Are you sure you want to post this content?</string>
+    <string name="post">Post</string>
+    <string name="form_date_label">Date (Click to select)</string>
+    <string name="form_title_en_label">Title (English)</string>
+    <string name="form_title_fr_label">Title (French)</string>
+    <string name="form_desc_en_label">Description (English)</string>
+    <string name="form_desc_fr_label">Description (French)</string>
+    <string name="form_tag_en_label">Tag (English)</string>
+    <string name="form_tag_fr_label">Tag (French)</string>
+    <string name="form_module_label">Module</string>
+    <string name="form_semester_label">Semester (e.g., S1, S2)</string>
+    <string name="form_url_label">URL</string>
+    <string name="form_type_label">Type</string>
+
+    <!-- Login Screen -->
+    <string name="login_tag">• USTHB L1 CS</string>
+    <string name="login_welcome_title">Welcome to\nCS Student Space</string>
+    <string name="login_welcome_desc">Access your courses, exam schedules, and updates all in one offline-first space.</string>
+    <string name="continue_with_google">Continue with Google</string>
+    <string name="login_secure_auth">Fast and secure authentication via Google</string>
+
+    <!-- Bottom Navigation -->
+    <string name="nav_home">Home</string>
+    <string name="nav_modules">Modules</string>
+    <string name="nav_add">Add</string>
+    <string name="nav_settings">Settings</string>
+
+    <!-- Settings Screen -->
+    <string name="settings_account">Account</string>
+    <string name="settings_sign_out">Sign Out</string>
+    <string name="settings_sign_out_confirm">Are you sure you want to sign out of your account?</string>
+    <string name="settings_language">Language</string>
+    <string name="language_english">English</string>
+    <string name="language_french">Français</string>
+
+    <!-- Module Detail Screen -->
+    <string name="category_documents">Documents</string>
+    <string name="category_videos">Videos</string>
+    <string name="category_useful_links">Useful Links</string>
 </resources>

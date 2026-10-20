@@ -1,34 +1,39 @@
-# Implementation Plan - Refactor Package Name to com.zineeddine.cs_student
+# Implementation Plan - Extract Hardcoded Strings to strings.xml
 
-Refactor all source files, test files, package declarations, imports, directory structure, and configuration files from `com.example.cs_student` to `com.zineeddine.cs_student`.
+Extract all hardcoded user-facing strings across all Compose screens into `res/values/strings.xml` and replace them with `stringResource(R.string...)` references to facilitate future multi-language localization.
 
 ## User Review Required
 
 > [!IMPORTANT]
-> This refactoring will rename package declarations and update directory paths from `com/example/cs_student` to `com/zineeddine/cs_student` under `src/main/java`, `src/androidTest/java`, and `src/test/java`.
+> This refactoring will centralize all UI text strings into `res/values/strings.xml` without changing any behavior or UI styling.
 
 ## Open Questions
 
-- None. The target package name is explicitly `com.zineeddine.cs_student`, which already matches `namespace` and `applicationId` in `app/build.gradle.kts`.
+- None.
 
 ## Proposed Changes
 
-### App Module
+### Resources
+#### [MODIFY] [strings.xml](file:///C:/Users/rocdz/AndroidStudioProjects/CSstudent/app/src/main/res/values/strings.xml)
+- Add string keys for Add screen, Login screen, Navigation bar, Settings screen, and Module detail categories.
 
-#### [MODIFY] [google-services.json](file:///C:/Users/rocdz/AndroidStudioProjects/CSstudent/app/google-services.json)
-- Update package_name fields referencing `com.example.cs_student` to `com.zineeddine.cs_student`.
+### Screens & UI Components
+#### [MODIFY] [Add.kt](file:///C:/Users/rocdz/AndroidStudioProjects/CSstudent/app/src/main/java/com/zineeddine/cs_student/screens/Add.kt)
+- Replace hardcoded button, dialog, and form labels with `stringResource(...)`.
 
-#### [MODIFY] Source Files (`src/main/java/com/zineeddine/cs_student/...`)
-- Move directory structure from `com/example/cs_student` to `com/zineeddine/cs_student`.
-- Update package declarations in all Kotlin files under `src/main/java` from `com.example.cs_student...` to `com.zineeddine.cs_student...`.
-- Update all imports in Kotlin files referencing `com.example.cs_student` to `com.zineeddine.cs_student`.
+#### [MODIFY] [Login.kt](file:///C:/Users/rocdz/AndroidStudioProjects/CSstudent/app/src/main/java/com/zineeddine/cs_student/screens/Login.kt)
+- Replace login titles, descriptions, and button texts with `stringResource(...)`.
 
-#### [MODIFY] Test Files (`src/androidTest/java` & `src/test/java`)
-- Move test file directory structure from `com/example/cs_student` to `com/zineeddine/cs_student`.
-- Update package declarations and package assertions in `ExampleInstrumentedTest.kt` and `ExampleUnitTest.kt`.
+#### [MODIFY] [NavBottom.kt](file:///C:/Users/rocdz/AndroidStudioProjects/CSstudent/app/src/main/java/com/zineeddine/cs_student/screens/NavBottom.kt)
+- Replace bottom navigation item labels with `stringResource(...)`.
+
+#### [MODIFY] [Settings.kt](file:///C:/Users/rocdz/AndroidStudioProjects/CSstudent/app/src/main/java/com/zineeddine/cs_student/screens/Settings.kt)
+- Replace account title, sign out button, and confirmation dialog texts with `stringResource(...)`.
+
+#### [MODIFY] [ModuleDetailScreen.kt](file:///C:/Users/rocdz/AndroidStudioProjects/CSstudent/app/src/main/java/com/zineeddine/cs_student/ui/screens/ModuleDetailScreen.kt)
+- Replace category titles (`Documents`, `Videos`, `Useful Links`) with `stringResource(...)`.
 
 ## Verification Plan
 
 ### Automated Tests
-- Run `:app:assembleDebug` and `:app:assembleRelease` to verify compilation and resource merging.
-- Run unit/instrumented test tasks if applicable.
+- Run `:app:assembleDebug` and `:app:assembleRelease` to verify successful compilation and resource resolution.
