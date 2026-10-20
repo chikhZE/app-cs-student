@@ -34,4 +34,12 @@ class ResourcesListViewModel(
             _isLoading.value = false
         }
     }
+
+    fun deleteResources(itemToDelete: ResourceItem) {
+        viewModelScope.launch {
+            _isLoading.value = true
+            repository.deleteResource(moduleCode, itemToDelete)
+            loadResources()
+        }
+    }
 }

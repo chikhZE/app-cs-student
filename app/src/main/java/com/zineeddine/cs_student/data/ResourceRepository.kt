@@ -41,4 +41,28 @@ class ResourceRepository{
             emptyList()
         }
     }
+
+    suspend fun deleteResource(moduleCode: String, itemToDelete: ResourceItem): Boolean {
+        return try {
+            val docRef = firestore.collection("resources").document(moduleCode)
+            val snapshot = docRef.get().await()
+            if (!snapshot.exists()) return false
+
+            @Suppress("UNCHECKED_CAST")
+            val rawList = snapshot.get("res") as? List<Map<String, Any>> ?: return false
+
+            // Filter out the item matching by url, type, and semester
+            val updatedList = rawList.filterNot { map ->
+                val url = map["url"] as? String ?: ""
+                val type = map["type"] as? String ?: ""
+                val semester = map["semester"] as? String ?: ""
+                url == itemToDelete.url && type.equals(itemToDelete.type, ignoreCase = true) && semester == itemToDelete.semester
+            }
+
+            docRef.update("res", updatedList).await()
+            true
+        } catch (e: Exception) {
+            false
+        }
+    }
 }

@@ -128,11 +128,12 @@ fun MainWithBottomBarScreen(rootNavController : NavController,studentName: Strin
                     val moduleCode = backStackEntry.arguments?.getString("moduleCode") ?: ""
                     val contentType = backStackEntry.arguments?.getString("contentType") ?: ""
                     ResourcesListScreen(
+                        isAdmin,
                         moduleCode = moduleCode,
                         contentType = contentType,
                         onBackClick = {
                             navController.popBackStack()
-                        }
+                        },
                     )
                 }
             }
