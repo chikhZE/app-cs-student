@@ -1,5 +1,6 @@
 package com.zineeddine.cs_student.screens
 
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -118,11 +119,14 @@ fun HomeScreen(
             }
 
             items(newsList) { news ->
+                val currentLanguage = AppCompatDelegate.getApplicationLocales()[0]?.language
+                val isFrench = currentLanguage == "fr"
+
                 AnnouncementCard(
-                    tag = news.tagEn,
+                    tag = if (isFrench) news.tagFr else news.tagEn,
                     date = news.date,
-                    title = news.titleEn,
-                    description = news.descriptionEn
+                    title = if (isFrench) news.titleFr else news.titleEn,
+                    description = if (isFrench) news.descriptionFr else news.descriptionEn
                 )
             }
         }

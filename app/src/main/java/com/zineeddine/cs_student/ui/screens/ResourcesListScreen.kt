@@ -1,5 +1,6 @@
 package com.zineeddine.cs_student.ui.screens
 
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -32,6 +33,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import com.zineeddine.cs_student.data.ResourceItem
 import com.zineeddine.cs_student.data.ResourcesListViewModel
+import com.zineeddine.cs_student.R
+import androidx.compose.ui.res.stringResource
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -122,10 +125,10 @@ fun ResourcesListScreen(
         AlertDialog(
             onDismissRequest = { resourceToDelete = null },
             title = {
-                Text(text = "Confirm Deletion", color = TextWhite, fontWeight = FontWeight.Bold)
+                Text(text = stringResource(R.string.confirm_deletion), color = TextWhite, fontWeight = FontWeight.Bold)
             },
             text = {
-                Text(text = "Are you sure you want to delete this resource?", color = TextWhite.copy(alpha = 0.8f))
+                Text(text = stringResource(R.string.confirm_deletion_message), color = TextWhite.copy(alpha = 0.8f))
             },
             confirmButton = {
                 TextButton(
@@ -136,14 +139,14 @@ fun ResourcesListScreen(
                         resourceToDelete = null
                     }
                 ) {
-                    Text(text = "Delete", color = Color(0xFFFF5252), fontWeight = FontWeight.Bold)
+                    Text(text = stringResource(R.string.delete), color = Color(0xFFFF5252), fontWeight = FontWeight.Bold)
                 }
             },
             dismissButton = {
                 TextButton(
                     onClick = { resourceToDelete = null }
                 ) {
-                    Text(text = "Cancel", color = TextWhite.copy(alpha = 0.7f))
+                    Text(text = stringResource(R.string.cancel), color = TextWhite.copy(alpha = 0.7f))
                 }
             },
             containerColor = CardBackground,
@@ -287,8 +290,11 @@ fun ResourceCard(
                 }
             }
 
+            val currentLang = AppCompatDelegate.getApplicationLocales()[0]?.language ?: "en"
+            val titleText = resource.title[currentLang] ?: resource.title["en"] ?: ""
+
             Text(
-                text = resource.title.getValue("en"),
+                text = titleText,
                 color = TextWhite,
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Bold,

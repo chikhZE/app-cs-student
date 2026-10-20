@@ -60,4 +60,9 @@
     <string name="category_documents">Documents</string>
     <string name="category_videos">Videos</string>
     <string name="category_useful_links">Useful Links</string>
+
+    <!-- Deletion Confirmation Dialog -->
+    <string name="confirm_deletion">Confirm Deletion</string>
+    <string name="confirm_deletion_message">Are you sure you want to delete this resource?</string>
+    <string name="delete">Delete</string>
 </resources>
