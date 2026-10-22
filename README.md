@@ -33,14 +33,16 @@ Built using modern Android development best practices and the latest Jetpack lib
 
 ##  Screenshots
 
-*![CS8.png](../../../../folders/IT/Websites/portofolio/assets/imgs/CS8.png)
-![CS1.png](../../../../folders/IT/Websites/portofolio/assets/imgs/CS1.png)
-![CS2.png](../../../../folders/IT/Websites/portofolio/assets/imgs/CS2.png)
-![CS3.png](../../../../folders/IT/Websites/portofolio/assets/imgs/CS3.png)
-![CS4.png](../../../../folders/IT/Websites/portofolio/assets/imgs/CS4.png)
-![CS5.png](../../../../folders/IT/Websites/portofolio/assets/imgs/CS5.png)
-![CS6.png](../../../../folders/IT/Websites/portofolio/assets/imgs/CS6.png)
-![CS7.png](../../../../folders/IT/Websites/portofolio/assets/imgs/CS7.png)*
+<img width="1500" height="1000" alt="CS1" src="https://github.com/user-attachments/assets/2a461331-2427-4c4d-b62c-07256e3c4f68" />
+<img width="1500" height="1000" alt="CS2" src="https://github.com/user-attachments/assets/fe399b82-dd1c-48b4-849d-60eee3b4ef50" />
+<img width="1500" height="1000" alt="CS3" src="https://github.com/user-attachments/assets/db679580-51b5-4dc8-aa63-0b2708eb3e24" />
+<img width="1500" height="1000" alt="CS4" src="https://github.com/user-attachments/assets/047e6c71-a184-466e-9de0-b608c95c7015" />
+<img width="1500" height="1000" alt="CS5" src="https://github.com/user-attachments/assets/cc17d77a-6edb-4225-8d91-8f0798fdffa3" />
+<img width="1500" height="1000" alt="CS6" src="https://github.com/user-attachments/assets/55a4ad49-456e-4768-bba3-d2f407f9bd42" />
+<img width="1500" height="1000" alt="CS7" src="https://github.com/user-attachments/assets/8b77c987-ad42-440f-8d36-4754f5580bf1" />
+<img width="1500" height="1000" alt="CS8" src="https://github.com/user-attachments/assets/07ad3991-c897-4359-b95b-10a1ffffb8cc" />
+
+
 
 ---
 
