@@ -1,28 +1,23 @@
-# Walkthrough - Extract Hardcoded Strings to strings.xml
+# Walkthrough - Firebase Cloud Messaging Push Notifications Setup
 
-Extracted all hardcoded user-facing strings across all Compose screens and navigation components into `res/values/strings.xml` and replaced them with `stringResource(...)`.
+Implemented FCM push notification infrastructure to allow sending manual notifications from the Firebase Console.
 
 ## Changes
 
-### Resources
-#### [MODIFY] [strings.xml](file:///C:/Users/rocdz/AndroidStudioProjects/CSstudent/app/src/main/res/values/strings.xml)
-- Added localization-ready string keys for Add Screen, Login Screen, Bottom Navigation, Settings Screen, and Module Detail categories.
+### Dependencies & Configuration
+#### [MODIFY] [build.gradle.kts](file:///C:/Users/rocdz/AndroidStudioProjects/CSstudent/app/build.gradle.kts)
+- Added `implementation("com.google.firebase:firebase-messaging")`.
 
-### UI Screens
-#### [MODIFY] [Add.kt](file:///C:/Users/rocdz/AndroidStudioProjects/CSstudent/app/src/main/java/com/zineeddine/cs_student/screens/Add.kt)
-- Replaced hardcoded button, dialog, and form labels with `stringResource(...)`.
+#### [MODIFY] [CSstudentApplication.kt](file:///C:/Users/rocdz/AndroidStudioProjects/CSstudent/app/src/main/java/com/zineeddine/cs_student/CSstudentApplication.kt)
+- Added notification channel creation (`updates_channel_id`) on application startup.
+- Subscribed app instances to the `"announcements"` FCM topic.
 
-#### [MODIFY] [Login.kt](file:///C:/Users/rocdz/AndroidStudioProjects/CSstudent/app/src/main/java/com/zineeddine/cs_student/screens/Login.kt)
-- Replaced login tag, welcome titles, descriptions, and auth button texts with `stringResource(...)`.
+### Messaging & Manifest
+#### [NEW] [MyFirebaseMessagingService.kt](file:///C:/Users/rocdz/AndroidStudioProjects/CSstudent/app/src/main/java/com/zineeddine/cs_student/MyFirebaseMessagingService.kt)
+- Created `FirebaseMessagingService` implementation to receive push payloads and build local system notifications (`NotificationCompat.Builder`).
 
-#### [MODIFY] [NavBottom.kt](file:///C:/Users/rocdz/AndroidStudioProjects/CSstudent/app/src/main/java/com/zineeddine/cs_student/screens/NavBottom.kt)
-- Replaced bottom navigation item labels with `stringResource(...)`.
-
-#### [MODIFY] [Settings.kt](file:///C:/Users/rocdz/AndroidStudioProjects/CSstudent/app/src/main/java/com/zineeddine/cs_student/screens/Settings.kt)
-- Replaced account card header, sign out button, and sign out confirmation dialog texts with `stringResource(...)`.
-
-#### [MODIFY] [ModuleDetailScreen.kt](file:///C:/Users/rocdz/AndroidStudioProjects/CSstudent/app/src/main/java/com/zineeddine/cs_student/ui/screens/ModuleDetailScreen.kt)
-- Replaced category card titles (`Documents`, `Videos`, `Useful Links`) with `stringResource(...)`.
+#### [MODIFY] [AndroidManifest.xml](file:///C:/Users/rocdz/AndroidStudioProjects/CSstudent/app/src/main/AndroidManifest.xml)
+- Registered `MyFirebaseMessagingService` with the `MESSAGING_EVENT` intent filter.
 
 ## Verification Results
 
