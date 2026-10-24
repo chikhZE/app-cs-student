@@ -15,19 +15,33 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccessTime
 import androidx.compose.material.icons.filled.CalendarToday
-import androidx.compose.material.icons.filled.LocationOn
-import androidx.compose.material.icons.filled.Schedule
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilterChip
+import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -37,65 +51,182 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.zineeddine.cs_student.R
+import com.zineeddine.cs_student.data.ScheduleEntity
+import com.zineeddine.cs_student.data.ScheduleViewModel
 import com.zineeddine.cs_student.ui.theme.CardSurface
 import com.zineeddine.cs_student.ui.theme.DarkBackground
 import com.zineeddine.cs_student.ui.theme.HackerGreen
 import com.zineeddine.cs_student.ui.theme.TechBlue
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 data class ScheduleItem(
-    val id: String,
     @StringRes val subjectRes: Int,
     @StringRes val typeRes: Int,
     @StringRes val dayRes: Int,
     val time: String,
-    @StringRes val roomRes: Int
 )
+val daysList = listOf(
+    R.string.day_saturday,
+    R.string.day_sunday,
+    R.string.day_monday,
+    R.string.day_tuesday,
+    R.string.day_wednesday,
+    R.string.day_thursday ,
+    R.string.day_friday,
+    )
 
-val sampleSchedule = listOf(
-    ScheduleItem("1", R.string.module_algo, R.string.type_cours, R.string.day_sunday, "08:00 - 09:30", R.string.room_amphi_c),
-    ScheduleItem("2", R.string.module_algo, R.string.type_td, R.string.day_sunday, "09:40 - 11:10", R.string.room_salle_204),
-    ScheduleItem("3", R.string.module_archi, R.string.type_cours, R.string.day_monday, "08:00 - 09:30", R.string.room_amphi_a),
-    ScheduleItem("4", R.string.module_archi, R.string.type_tp, R.string.day_monday, "09:40 - 11:10", R.string.room_lab_02),
-    ScheduleItem("5", R.string.module_analysis, R.string.type_cours, R.string.day_tuesday, "08:00 - 09:30", R.string.room_amphi_b),
-    ScheduleItem("6", R.string.module_analysis, R.string.type_td, R.string.day_tuesday, "09:40 - 11:10", R.string.room_salle_108),
-    ScheduleItem("7", R.string.module_algebra, R.string.type_cours, R.string.day_wednesday, "08:00 - 09:30", R.string.room_amphi_c),
-    ScheduleItem("8", R.string.module_algebra, R.string.type_td, R.string.day_wednesday, "09:40 - 11:10", R.string.room_salle_112),
-    ScheduleItem("9", R.string.module_os, R.string.type_cours, R.string.day_thursday, "08:00 - 09:30", R.string.room_amphi_a),
-    ScheduleItem("10", R.string.module_web, R.string.type_tp, R.string.day_thursday, "09:40 - 11:10", R.string.room_lab_05)
-)
-
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ScheduleScreen(
+    isAdmin: Boolean = false,
     modifier: Modifier = Modifier,
-    items: List<ScheduleItem> = sampleSchedule
+    viewModel: ScheduleViewModel = viewModel()
 ) {
+    val scheduleList by viewModel.scheduleList.collectAsState()
+    var isRefreshing by remember { mutableStateOf(false) }
+    var scheduleToDelete by remember { mutableStateOf<ScheduleEntity?>(null) }
+    val coroutineScope = rememberCoroutineScope()
+    var selectedDayRes by remember { mutableIntStateOf(R.string.day_saturday) }
+    val selectedDayText = stringResource(selectedDayRes)
+    val englishDayName = when (selectedDayRes) {
+        R.string.day_sunday -> "Sunday"
+        R.string.day_monday -> "Monday"
+        R.string.day_tuesday -> "Tuesday"
+        R.string.day_wednesday -> "Wednesday"
+        R.string.day_thursday -> "Thursday"
+        R.string.day_saturday -> "Saturday"
+        R.string.day_friday -> "Friday"
+        else -> ""
+    }
+
+    val filteredItems = remember(scheduleList, selectedDayText) {
+        scheduleList.filter { item ->
+            item.dayRes.equals(englishDayName, ignoreCase = true)
+        }
+    }
     Surface(
         modifier = modifier.fillMaxSize(),
         color = DarkBackground
     ) {
-
-
-
-            // Single vertical scrollable list for all classes
-            LazyColumn(
+        PullToRefreshBox(
+            isRefreshing = isRefreshing,
+            onRefresh = {
+                coroutineScope.launch {
+                    isRefreshing = true
+                    viewModel.refreshSchedule()
+                    delay(1000)
+                    isRefreshing = false
+                }
+            },
+            modifier = Modifier.fillMaxSize()
+        ) {
+            Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(16.dp),
-                verticalArrangement = Arrangement.spacedBy(12.dp)
+                    .padding(16.dp)
             ) {
-                items(items, key = { it.id }) { scheduleItem ->
-                    ScheduleCard(item = scheduleItem)
+                LazyRow(
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
+                ) {
+                    items(daysList) { dayRes ->
+                        val isSelected = dayRes == selectedDayRes
+
+                        FilterChip(
+                            selected = isSelected,
+                            onClick = { selectedDayRes = dayRes },
+                            label = {
+                                Text(
+                                    text = stringResource(dayRes),
+                                    color = if (isSelected) Color.Black else Color.White
+                                )
+                            },
+                            colors = FilterChipDefaults.filterChipColors(
+                                selectedContainerColor = HackerGreen,
+                                containerColor = CardSurface
+                            )
+                        )
+                    }
                 }
-                item {
-                    Spacer(modifier = Modifier.height(16.dp))
+
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxSize(),
+                    verticalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
+                    items(filteredItems) { scheduleItem ->
+                        ScheduleCard(
+                            isAdmin = isAdmin,
+                            item = scheduleItem,
+                            onDelete = { item ->
+                                scheduleToDelete = item
+                            }
+                        )
+                    }
+                    item {
+                        Spacer(modifier = Modifier.height(16.dp))
+                    }
                 }
             }
         }
     }
 
+    if (scheduleToDelete != null) {
+        AlertDialog(
+            onDismissRequest = { scheduleToDelete = null },
+            title = {
+                Text(text = stringResource(R.string.confirm_deletion), color = Color.White, fontWeight = FontWeight.Bold)
+            },
+            text = {
+                Text(text = stringResource(R.string.confirm_deletion_message), color = Color.White.copy(alpha = 0.8f))
+            },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        scheduleToDelete?.let { item ->
+                            viewModel.deleteSchedule(item)
+                        }
+                        scheduleToDelete = null
+                    }
+                ) {
+                    Text(text = stringResource(R.string.delete), color = Color(0xFFFF5252), fontWeight = FontWeight.Bold)
+                }
+            },
+            dismissButton = {
+                TextButton(
+                    onClick = { scheduleToDelete = null }
+                ) {
+                    Text(text = stringResource(R.string.cancel), color = Color.White.copy(alpha = 0.7f))
+                }
+            },
+            containerColor = CardSurface,
+            shape = RoundedCornerShape(16.dp)
+        )
+    }
+}
+
 @Composable
-fun ScheduleCard(item: ScheduleItem) {
+fun getLocalizedDayName(dayStr: String): String {
+    val dayRes = when (dayStr.lowercase().trim()) {
+        "sunday" -> R.string.day_sunday
+        "monday" -> R.string.day_monday
+        "tuesday" -> R.string.day_tuesday
+        "wednesday" -> R.string.day_wednesday
+        "thursday" -> R.string.day_thursday
+        else -> null
+    }
+    return if (dayRes != null) stringResource(dayRes) else dayStr
+}
+
+@Composable
+fun ScheduleCard(
+    isAdmin: Boolean = false,
+    item: ScheduleEntity,
+    onDelete: (ScheduleEntity) -> Unit = {}
+) {
     Card(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(16.dp),
@@ -107,26 +238,40 @@ fun ScheduleCard(item: ScheduleItem) {
                 .fillMaxWidth()
                 .padding(16.dp)
         ) {
-            // Top Row: Subject Name & Class Type Badge
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = stringResource(item.subjectRes),
+                    text = item.subjectRes,
                     color = Color.White,
                     fontSize = 17.sp,
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier.weight(1f)
                 )
                 Spacer(modifier = Modifier.width(8.dp))
-                ClassTypeBadge(typeRes = item.typeRes)
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    ClassTypeBadge(typeRes = item.typeRes)
+                    if (isAdmin) {
+                        Spacer(modifier = Modifier.width(4.dp))
+                        IconButton(
+                            onClick = { onDelete(item) },
+                            modifier = Modifier.size(32.dp)
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.Delete,
+                                contentDescription = "Delete Schedule Item",
+                                tint = Color(0xFFFF5252),
+                                modifier = Modifier.size(18.dp)
+                            )
+                        }
+                    }
+                }
             }
 
             Spacer(modifier = Modifier.height(12.dp))
 
-            // Day & Time Row
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
@@ -143,7 +288,7 @@ fun ScheduleCard(item: ScheduleItem) {
                     )
                     Spacer(modifier = Modifier.width(6.dp))
                     Text(
-                        text = stringResource(item.dayRes),
+                        text = getLocalizedDayName(item.dayRes),
                         color = Color(0xFFECEFF4),
                         fontSize = 14.sp,
                         fontWeight = FontWeight.Medium
@@ -177,9 +322,8 @@ fun ScheduleCard(item: ScheduleItem) {
 }
 
 @Composable
-fun ClassTypeBadge(@StringRes typeRes: Int) {
-    val typeText = stringResource(typeRes)
-    val (backgroundColor, textColor, borderColor) = when (typeText.uppercase()) {
+fun ClassTypeBadge(typeRes: String) {
+    val (backgroundColor, textColor, borderColor) = when (typeRes.uppercase()) {
         "COURS" -> Triple(
             HackerGreen.copy(alpha = 0.15f),
             HackerGreen,
@@ -211,7 +355,7 @@ fun ClassTypeBadge(@StringRes typeRes: Int) {
         contentAlignment = Alignment.Center
     ) {
         Text(
-            text = typeText,
+            text = typeRes,
             color = textColor,
             fontSize = 11.sp,
             fontWeight = FontWeight.Bold

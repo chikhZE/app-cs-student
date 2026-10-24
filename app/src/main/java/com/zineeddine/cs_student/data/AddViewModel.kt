@@ -24,6 +24,9 @@ class AddContentViewModel : ViewModel() {
     var semester by mutableStateOf("")
     var url by mutableStateOf("")
 
+    // Schedule fields
+    var scheduleTime by mutableStateOf("")
+
     fun clearForm() {
         date = ""
         newsTitleEn = ""
@@ -36,33 +39,46 @@ class AddContentViewModel : ViewModel() {
         resTitleFr = ""
         semester = ""
         url = ""
+        scheduleTime = ""
     }
 
     fun handlePostSubmission(
         contentType: String,
         moduleCode: String,
-        selectedType: String
+        selectedType: String,
+        selectedDay: String = ""
     ) {
         viewModelScope.launch {
-            if (contentType == "News") {
-                repository.addNews(
-                    titleEn = newsTitleEn,
-                    titleFr = newsTitleFr,
-                    descEn = descEn,
-                    descFr = descFr,
-                    tagEn = tagEn,
-                    tagFr = tagFr,
-                    date = date
-                )
-            } else {
-                repository.addResource(
-                    moduleCode = moduleCode,
-                    semester = semester,
-                    titleEn = resTitleEn,
-                    titleFr = resTitleFr,
-                    url = url,
-                    type = selectedType
-                )
+            when (contentType) {
+                "News" -> {
+                    repository.addNews(
+                        titleEn = newsTitleEn,
+                        titleFr = newsTitleFr,
+                        descEn = descEn,
+                        descFr = descFr,
+                        tagEn = tagEn,
+                        tagFr = tagFr,
+                        date = date
+                    )
+                }
+                "Res" -> {
+                    repository.addResource(
+                        moduleCode = moduleCode,
+                        semester = semester,
+                        titleEn = resTitleEn,
+                        titleFr = resTitleFr,
+                        url = url,
+                        type = selectedType
+                    )
+                }
+                "Schedule" -> {
+                    repository.addSchedule(
+                        subjectRes = moduleCode,
+                        dayRes = selectedDay,
+                        time = scheduleTime,
+                        typeRes = selectedType
+                    )
+                }
             }
         }
     }

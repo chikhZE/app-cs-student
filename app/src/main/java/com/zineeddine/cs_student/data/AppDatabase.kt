@@ -5,9 +5,10 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
-@Database(entities = [NewsEntity::class], version = 1, exportSchema = false)
+@Database(entities = [NewsEntity::class, ScheduleEntity::class], version = 2, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun newsDao(): NewsDao
+    abstract fun scheduleDao(): ScheduleDao
     companion object {
         @Volatile
         private var INSTANCE: AppDatabase? = null
@@ -18,7 +19,9 @@ abstract class AppDatabase : RoomDatabase() {
                     context.applicationContext,
                     AppDatabase::class.java,
                     "cs_student_database"
-                ).build()
+                )
+                    .fallbackToDestructiveMigration()
+                    .build()
                 INSTANCE = instance
                 instance
             }

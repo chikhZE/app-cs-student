@@ -37,15 +37,18 @@ fun AddContentScreen(
     viewModel: AddContentViewModel = viewModel()
 ) {
     // Local state variables for selections
-    var selectedContentType by remember { mutableStateOf("News") } // "News" or "Res"
+    var selectedContentType by remember { mutableStateOf("News") } // "News", "Res", or "Schedule"
     var selectedModule by remember { mutableStateOf("") }
     var selectedType by remember { mutableStateOf("") }
+    var selectedDay by remember { mutableStateOf("") }
     var showConfirmDialog by remember { mutableStateOf(false) }
 
     // Predefined lists for dropdowns
-    val contentTypes = listOf("News", "Res")
-    val modulesList = listOf("Algo", "MP", "CRI-STRM", "Analysis", "Algebra", "ICT")
-    val typesList = listOf("pdf", "link", "video")
+    val contentTypes = listOf("News", "Res", "Schedule")
+    val resModulesList = listOf("Algo", "MP", "CRI-STRM", "Analysis", "Algebra", "ICT")
+    val resTypesList = listOf("pdf", "link", "video")
+    val scheduleDaysList = listOf("Saturday","Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday")
+    val scheduleTypesList = listOf("Cours", "TP", "TD")
 
     val scrollState = rememberScrollState()
 
@@ -70,7 +73,12 @@ fun AddContentScreen(
                     modifier = Modifier
                         .weight(1f)
                         .height(50.dp)
-                        .clickable { selectedContentType = type },
+                        .clickable {
+                            selectedContentType = type
+                            selectedModule = ""
+                            selectedType = ""
+                            selectedDay = ""
+                        },
                     color = if (selectedContentType == type) NeonGreen else DarkGreyField,
                     shape = RoundedCornerShape(25.dp),
                 ) {
@@ -97,15 +105,26 @@ fun AddContentScreen(
                 .verticalScroll(scrollState),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            if (selectedContentType == "News") {
-                NewsForm(viewModel = viewModel)
-            } else {
-                ResourceForm(
+            when (selectedContentType) {
+                "News" -> NewsForm(viewModel = viewModel)
+                "Res" -> ResourceForm(
                     viewModel = viewModel,
-                    modulesList = modulesList,
-                    typesList = typesList,
+                    modulesList = resModulesList,
+                    typesList = resTypesList,
                     selectedModule = selectedModule,
                     onModuleSelect = { selectedModule = it },
+                    selectedType = selectedType,
+                    onTypeSelect = { selectedType = it }
+                )
+                "Schedule" -> ScheduleForm(
+                    viewModel = viewModel,
+                    modulesList = resModulesList,
+                    daysList = scheduleDaysList,
+                    typesList = scheduleTypesList,
+                    selectedModule = selectedModule,
+                    onModuleSelect = { selectedModule = it },
+                    selectedDay = selectedDay,
+                    onDaySelect = { selectedDay = it },
                     selectedType = selectedType,
                     onTypeSelect = { selectedType = it }
                 )
@@ -149,6 +168,7 @@ fun AddContentScreen(
                         selectedContentType = "News"
                         selectedModule = ""
                         selectedType = ""
+                        selectedDay = ""
                         onBackClick()
                     },
                 fontSize = 16.sp
@@ -173,11 +193,13 @@ fun AddContentScreen(
                         viewModel.handlePostSubmission(
                             contentType = selectedContentType,
                             moduleCode = selectedModule,
-                            selectedType = selectedType
+                            selectedType = selectedType,
+                            selectedDay = selectedDay
                         )
                         viewModel.clearForm()
                         selectedModule = ""
                         selectedType = ""
+                        selectedDay = ""
                         onPostClick()
                     }
                 ) {
@@ -292,6 +314,54 @@ fun ResourceForm(
             modifier = Modifier.padding(bottom = 12.dp)
         )
         // Resource Type Dropdown
+        FormDropdownSelector(
+            label = stringResource(R.string.form_type_label),
+            options = typesList,
+            selectedOption = selectedType,
+            onOptionSelect = onTypeSelect,
+            modifier = Modifier.padding(bottom = 12.dp)
+        )
+    }
+}
+
+@Composable
+fun ScheduleForm(
+    viewModel: AddContentViewModel,
+    modulesList: List<String>,
+    daysList: List<String>,
+    typesList: List<String>,
+    selectedModule: String,
+    onModuleSelect: (String) -> Unit,
+    selectedDay: String,
+    onDaySelect: (String) -> Unit,
+    selectedType: String,
+    onTypeSelect: (String) -> Unit
+) {
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        // Module Dropdown
+        FormDropdownSelector(
+            label = stringResource(R.string.form_module_label),
+            options = modulesList,
+            selectedOption = selectedModule,
+            onOptionSelect = onModuleSelect,
+            modifier = Modifier.padding(bottom = 12.dp)
+        )
+        // Day Dropdown
+        FormDropdownSelector(
+            label = "Day",
+            options = daysList,
+            selectedOption = selectedDay,
+            onOptionSelect = onDaySelect,
+            modifier = Modifier.padding(bottom = 12.dp)
+        )
+        // Time Input
+        FormTextField(
+            label = "Time (e.g. 8:00 - 9:40)",
+            value = viewModel.scheduleTime,
+            onValueChange = { viewModel.scheduleTime = it },
+            modifier = Modifier.padding(bottom = 12.dp)
+        )
+        // Class Type Dropdown
         FormDropdownSelector(
             label = stringResource(R.string.form_type_label),
             options = typesList,

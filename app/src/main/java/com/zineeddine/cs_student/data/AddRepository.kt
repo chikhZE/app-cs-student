@@ -67,4 +67,28 @@ class AdminContentRepository {
         }
     }
 
+    suspend fun addSchedule(
+        subjectRes: String,
+        dayRes: String,
+        time: String,
+        typeRes: String
+    ): Boolean {
+        val newScheduleMap = hashMapOf(
+            "subjectRes" to subjectRes,
+            "dayRes" to dayRes,
+            "time" to time,
+            "typeRes" to typeRes
+        )
+
+        return try {
+            firestore.collection("schedule")
+                .document("schedule")
+                .update("scheduleArr", FieldValue.arrayUnion(newScheduleMap))
+                .await()
+            true
+        } catch (e: Exception) {
+            false
+        }
+    }
+
 }

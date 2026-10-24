@@ -152,7 +152,10 @@ fun MainWithBottomBarScreen(rootNavController : NavController,studentName: Strin
                     ModulesScreen(modifier = Modifier.padding(innerPadding),navController)
                 }
                 composable("time_screen") {
-                    ScheduleScreen(modifier = Modifier.padding(innerPadding))
+                    ScheduleScreen(
+                        isAdmin = isAdmin,
+                        modifier = Modifier.padding(innerPadding)
+                    )
                 }
 
                 composable("add_screen") {
