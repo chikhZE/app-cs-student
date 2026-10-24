@@ -1,4 +1,4 @@
-<?xml5 version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">CS-student</string>
     <string name="study_space_tag">VOTRE ESPACE D\'ÉTUDE</string>
@@ -46,6 +46,7 @@
     <!-- Bottom Navigation -->
     <string name="nav_home">Accueil</string>
     <string name="nav_modules">Modules</string>
+    <string name="nav_schedule">Calendrier</string>
     <string name="nav_add">Ajouter</string>
     <string name="nav_settings">Paramètres</string>
 
@@ -66,4 +67,30 @@
     <string name="confirm_deletion">Confirmer la suppression</string>
     <string name="confirm_deletion_message">Êtes-vous sûr de vouloir supprimer cette ressource ?</string>
     <string name="delete">Supprimer</string>
+
+    <!-- Schedule Screen -->
+    <string name="schedule_title">Emploi du temps</string>
+    <string name="schedule_subtitle">USTHB Informatique - L1</string>
+    <string name="day_sunday">Dimanche</string>
+    <string name="day_monday">Lundi</string>
+    <string name="day_tuesday">Mardi</string>
+    <string name="day_wednesday">Mercredi</string>
+    <string name="day_thursday">Jeudi</string>
+    <string name="module_algo">Algorithmique &amp; Structures de données</string>
+    <string name="module_archi">Architecture des ordinateurs</string>
+    <string name="module_analysis">Analyse mathématique</string>
+    <string name="module_algebra">Algèbre linéaire</string>
+    <string name="module_os">Systèmes d\'exploitation</string>
+    <string name="module_web">Développement web &amp; Outils</string>
+    <string name="type_cours">COURS</string>
+    <string name="type_td">TD</string>
+    <string name="type_tp">TP</string>
+    <string name="room_amphi_c">Amphi C</string>
+    <string name="room_amphi_a">Amphi A</string>
+    <string name="room_amphi_b">Amphi B</string>
+    <string name="room_salle_204">Salle 204</string>
+    <string name="room_salle_108">Salle 108</string>
+    <string name="room_salle_112">Salle 112</string>
+    <string name="room_lab_02">Labo 02</string>
+    <string name="room_lab_05">Labo 05</string>
 </resources>

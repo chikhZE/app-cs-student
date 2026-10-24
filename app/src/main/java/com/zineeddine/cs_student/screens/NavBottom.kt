@@ -2,6 +2,7 @@ package com.zineeddine.cs_student.screens
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.CalendarToday
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.LibraryBooks
 import androidx.compose.material.icons.filled.Settings
@@ -60,6 +61,21 @@ fun NavBottom(
             },
             icon = { Icon(Icons.Filled.LibraryBooks, contentDescription = null, tint = Color.White) },
             label = { Text(text = stringResource(R.string.nav_modules) , color = Color.White) },
+            colors = NavigationBarItemDefaults.colors(
+                indicatorColor = TechBlue
+            )
+        )
+        NavigationBarItem(
+            selected = currentRoute == "time_screen",
+            onClick = {
+                if(currentRoute != "time_screen") {
+                    navController.navigate("time_screen"){
+                        popUpTo("home_screen") {inclusive = false}
+                    }
+                }
+            },
+            icon = { Icon(Icons.Filled.CalendarToday, contentDescription = null, tint = Color.White) },
+            label = { Text(text = stringResource(R.string.nav_schedule) , color = Color.White) },
             colors = NavigationBarItemDefaults.colors(
                 indicatorColor = TechBlue
             )

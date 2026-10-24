@@ -45,6 +45,7 @@
     <!-- Bottom Navigation -->
     <string name="nav_home">Home</string>
     <string name="nav_modules">Modules</string>
+    <string name="nav_schedule">Schedule</string>
     <string name="nav_add">Add</string>
     <string name="nav_settings">Settings</string>
 
@@ -65,4 +66,30 @@
     <string name="confirm_deletion">Confirm Deletion</string>
     <string name="confirm_deletion_message">Are you sure you want to delete this resource?</string>
     <string name="delete">Delete</string>
+
+    <!-- Schedule Screen -->
+    <string name="schedule_title">Weekly Schedule</string>
+    <string name="schedule_subtitle">USTHB Computer Science - L1</string>
+    <string name="day_sunday">Sunday</string>
+    <string name="day_monday">Monday</string>
+    <string name="day_tuesday">Tuesday</string>
+    <string name="day_wednesday">Wednesday</string>
+    <string name="day_thursday">Thursday</string>
+    <string name="module_algo">Algorithmics &amp; Data Structures</string>
+    <string name="module_archi">Computer Architecture</string>
+    <string name="module_analysis">Mathematical Analysis</string>
+    <string name="module_algebra">Linear Algebra</string>
+    <string name="module_os">Operating Systems</string>
+    <string name="module_web">Web Development &amp; Tools</string>
+    <string name="type_cours">COURS</string>
+    <string name="type_td">TD</string>
+    <string name="type_tp">TP</string>
+    <string name="room_amphi_c">Amphi C</string>
+    <string name="room_amphi_a">Amphi A</string>
+    <string name="room_amphi_b">Amphi B</string>
+    <string name="room_salle_204">Salle 204</string>
+    <string name="room_salle_108">Salle 108</string>
+    <string name="room_salle_112">Salle 112</string>
+    <string name="room_lab_02">Lab 02</string>
+    <string name="room_lab_05">Lab 05</string>
 </resources>

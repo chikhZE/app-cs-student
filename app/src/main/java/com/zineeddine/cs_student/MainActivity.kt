@@ -57,6 +57,7 @@ import com.zineeddine.cs_student.screens.HomeScreen
 import com.zineeddine.cs_student.screens.LoginScreen
 import com.zineeddine.cs_student.screens.ModulesScreen
 import com.zineeddine.cs_student.screens.NavBottom
+import com.zineeddine.cs_student.screens.ScheduleScreen
 import com.zineeddine.cs_student.screens.SettingsScreen
 import com.zineeddine.cs_student.ui.screens.ModuleDetailScreen
 import com.zineeddine.cs_student.ui.screens.ResourcesListScreen
@@ -149,6 +150,9 @@ fun MainWithBottomBarScreen(rootNavController : NavController,studentName: Strin
                 }
                 composable("modules_screen",) {
                     ModulesScreen(modifier = Modifier.padding(innerPadding),navController)
+                }
+                composable("time_screen") {
+                    ScheduleScreen(modifier = Modifier.padding(innerPadding))
                 }
 
                 composable("add_screen") {
