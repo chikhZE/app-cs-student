@@ -33,7 +33,7 @@ fun LoginScreen(
 ) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
-    CSstudentTheme {
+    CSstudentTheme(darkTheme = true) {
 
         Surface(
             modifier = Modifier.fillMaxSize(),
@@ -50,12 +50,12 @@ fun LoginScreen(
                     modifier = Modifier.padding(top = 40.dp)
                 ) {
                     Surface(
-                        color = MaterialTheme.colorScheme.secondary.copy(alpha = 0.15f), // HackerGreen background
+                        color = DarkBackground.copy(alpha = 0.15f), // HackerGreen background
                         shape = RoundedCornerShape(12.dp)
                     ) {
                         Text(
                             text = stringResource(R.string.login_tag),
-                            color = MaterialTheme.colorScheme.secondary,
+                            color = Color.White,
                             fontSize = 12.sp,
                             fontWeight = FontWeight.Bold,
                             modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp)
@@ -68,7 +68,7 @@ fun LoginScreen(
                         text = stringResource(R.string.login_welcome_title),
                         fontSize = 30.sp,
                         fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.onBackground,
+                        color = Color.White,
                         textAlign = TextAlign.Center,
                         lineHeight = 36.sp
                     )
@@ -78,7 +78,7 @@ fun LoginScreen(
                     Text(
                         text = stringResource(R.string.login_welcome_desc),
                         fontSize = 14.sp,
-                        color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6f),
+                        color = Color.White.copy(alpha = 0.6f),
                         textAlign = TextAlign.Center
                     )
                 }
@@ -96,7 +96,7 @@ fun LoginScreen(
                         text = "</>",
                         fontSize = 48.sp,
                         fontWeight = FontWeight.ExtraBold,
-                        color = MaterialTheme.colorScheme.secondary
+                        color = Color.White
                     )
                 }
 

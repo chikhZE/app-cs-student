@@ -130,7 +130,7 @@ fun RootNavigation(mainViewModel: MainViewModel = viewModel()) {
             }
 
             composable("main_flow") {
-                // مرر mainViewModel هنا ليستخدم نفس الـ Instance في SettingsScreen
+
                 MainWithBottomBarScreen(
                     rootNavController = navController,
                     studentName = studentName,
@@ -142,8 +142,6 @@ fun RootNavigation(mainViewModel: MainViewModel = viewModel()) {
 }
 @Composable
 fun MainWithBottomBarScreen(rootNavController : NavController,studentName: String,mainViewModel: MainViewModel) {
-    val currentUser = FirebaseAuth.getInstance().currentUser
-    val studentName = currentUser?.displayName ?: "Student"
     val isAdmin by mainViewModel.isAdmin.collectAsState()
     val navController = rememberNavController()
     val navBackStackEntry by navController.currentBackStackEntryAsState()

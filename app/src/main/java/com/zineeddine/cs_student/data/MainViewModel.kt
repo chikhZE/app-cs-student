@@ -16,7 +16,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-val android.content.Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings_prefs")
 
 
 class MainViewModel(application: Application) : AndroidViewModel(application) {
@@ -37,7 +36,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
 
 
-
+    val android.content.Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings_prefs")
     private val dataStore = application.dataStore
 
     val currentTheme: StateFlow<AppTheme> = dataStore.data
