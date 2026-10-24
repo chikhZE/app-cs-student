@@ -21,6 +21,7 @@ import androidx.compose.material.icons.filled.Timeline
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -57,7 +58,7 @@ fun ModulesScreen(modifier: Modifier = Modifier,navController: NavController) {
     LazyColumn(
         modifier = modifier
             .fillMaxSize()
-            .background(DarkBackground)
+            .background(MaterialTheme.colorScheme.background)
             .padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
@@ -74,7 +75,7 @@ fun SubjectCard(subject: SubjectItem, modifier: Modifier = Modifier,onClick: () 
         shape = RoundedCornerShape(16.dp),
         onClick = {onClick()},
         colors = CardDefaults.cardColors(
-            containerColor = CardSurface
+            containerColor = MaterialTheme.colorScheme.surface
         )
     ) {
         Row(

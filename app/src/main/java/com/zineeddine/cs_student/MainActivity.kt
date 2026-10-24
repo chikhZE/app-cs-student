@@ -63,6 +63,8 @@ import com.zineeddine.cs_student.ui.screens.ModuleDetailScreen
 import com.zineeddine.cs_student.ui.screens.ResourcesListScreen
 import com.zineeddine.cs_student.ui.theme.CSstudentTheme
 import com.google.firebase.auth.FirebaseAuth
+import com.zineeddine.cs_student.ui.theme.AppTheme
+import com.zineeddine.cs_student.ui.theme.DarkColorScheme
 
 class MainActivity : AppCompatActivity() {
 
@@ -76,15 +78,15 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+
     
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         requestNotificationPermission()
         setContent {
-            CSstudentTheme {
                 RootNavigation()
-            }
+
         }
     }
 
@@ -100,35 +102,46 @@ class MainActivity : AppCompatActivity() {
         }
     }
 }
-
 @Composable
-fun RootNavigation() {
+fun RootNavigation(mainViewModel: MainViewModel = viewModel()) {
+    val selectedTheme by mainViewModel.currentTheme.collectAsState()
     val navController = rememberNavController()
     val currentUser = FirebaseAuth.getInstance().currentUser
     val studentName = currentUser?.displayName ?: "Student"
     val startDestinationRoute = if (currentUser != null) "main_flow" else "login_screen"
-    NavHost(
-        navController = navController,
-        startDestination = startDestinationRoute
-    ) {
-        composable("login_screen") {
-            LoginScreen(
-                onLoginSuccess = {
-                    navController.navigate("main_flow") {
-                        popUpTo("login_screen") { inclusive = true }
-                    }
-                }
-            )
-        }
 
-        composable("main_flow") {
-            MainWithBottomBarScreen(navController,studentName)
+    CSstudentTheme(
+        darkTheme = true,
+        dynamicColor = false,
+        selectedTheme = selectedTheme
+    ) {
+        NavHost(
+            navController = navController,
+            startDestination = startDestinationRoute
+        ) {
+            composable("login_screen") {
+                LoginScreen(
+                    onLoginSuccess = {
+                        navController.navigate("main_flow") {
+                            popUpTo("login_screen") { inclusive = true }
+                        }
+                    }
+                )
+            }
+
+            composable("main_flow") {
+                // مرر mainViewModel هنا ليستخدم نفس الـ Instance في SettingsScreen
+                MainWithBottomBarScreen(
+                    rootNavController = navController,
+                    studentName = studentName,
+                    mainViewModel = mainViewModel
+                )
+            }
         }
     }
 }
-
 @Composable
-fun MainWithBottomBarScreen(rootNavController : NavController,studentName: String,mainViewModel: MainViewModel = viewModel()) {
+fun MainWithBottomBarScreen(rootNavController : NavController,studentName: String,mainViewModel: MainViewModel) {
     val currentUser = FirebaseAuth.getInstance().currentUser
     val studentName = currentUser?.displayName ?: "Student"
     val isAdmin by mainViewModel.isAdmin.collectAsState()
@@ -167,7 +180,7 @@ fun MainWithBottomBarScreen(rootNavController : NavController,studentName: Strin
                         rootNavController.navigate("login_screen") {
                             popUpTo("main_flow") { inclusive = true }
                         }
-                    })
+                    }, mainViewModel)
                 }
                 composable("module_detail_screen/{moduleCode}") { backStackEntry ->
                     val moduleCode = backStackEntry.arguments?.getString("moduleCode") ?: ""
@@ -282,3 +295,4 @@ fun areNotificationsEnabled(context: Context): Boolean {
         androidx.core.app.NotificationManagerCompat.from(context).areNotificationsEnabled()
     }
 }
+

@@ -87,11 +87,11 @@ fun ResourcesListScreen(
                         }
                     },
                     colors = TopAppBarDefaults.topAppBarColors(
-                        containerColor = DarkBackground
+                        containerColor = MaterialTheme.colorScheme.background
                     )
                 )
             },
-            containerColor = DarkBackground
+            containerColor = MaterialTheme.colorScheme.background
         )
         { innerPadding ->
             LazyColumn(
@@ -149,7 +149,7 @@ fun ResourcesListScreen(
                     Text(text = stringResource(R.string.cancel), color = TextWhite.copy(alpha = 0.7f))
                 }
             },
-            containerColor = CardBackground,
+            containerColor = MaterialTheme.colorScheme.surface,
             shape = RoundedCornerShape(16.dp)
         )
     }
@@ -172,7 +172,7 @@ fun ResourceCard(
         modifier = Modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(16.dp))
-            .background(CardBackground)
+            .background(MaterialTheme.colorScheme.surface)
             .clickable { onOpenUrl(resource.url) }
             .padding(16.dp)
     ) {

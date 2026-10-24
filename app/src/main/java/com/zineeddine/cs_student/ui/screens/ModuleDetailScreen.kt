@@ -59,11 +59,11 @@ fun ModuleDetailScreen(
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = DarkBackground
+                    containerColor = MaterialTheme.colorScheme.background
                 )
             )
         },
-        containerColor = DarkBackground
+        containerColor = MaterialTheme.colorScheme.background
     ) { innerPadding ->
         Column(
             modifier = Modifier
@@ -108,7 +108,7 @@ fun CategoryCard(
             .fillMaxWidth()
             .height(72.dp)
             .clip(RoundedCornerShape(16.dp))
-            .background(CardBackground)
+            .background(MaterialTheme.colorScheme.surface)
             .clickable { onClick() }
             .padding(horizontal = 16.dp),
         contentAlignment = Alignment.CenterStart

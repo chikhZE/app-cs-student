@@ -22,21 +22,27 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.os.LocaleListCompat
+import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import com.google.firebase.auth.FirebaseAuth
 import com.zineeddine.cs_student.R
+import com.zineeddine.cs_student.data.MainViewModel
+import com.zineeddine.cs_student.ui.theme.AppTheme
 import com.zineeddine.cs_student.ui.theme.CardSurface
 import com.zineeddine.cs_student.ui.theme.DarkBackground
 import com.zineeddine.cs_student.ui.theme.HackerGreen
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SettingsScreen(
     modifier: Modifier = Modifier,
-    onSignOutClick: () -> Unit = {}
+    onSignOutClick: () -> Unit = {},
+    viewModel: MainViewModel
 ) {
     var showDialog by remember { mutableStateOf(false) }
     val context = LocalContext.current
+
+    // مراقبة الثيم الحالي من الـ ViewModel
+    val currentTheme by viewModel.currentTheme.collectAsState()
 
     val currentUser = remember { FirebaseAuth.getInstance().currentUser }
     val photoUrl = currentUser?.photoUrl
@@ -45,7 +51,7 @@ fun SettingsScreen(
 
     Surface(
         modifier = modifier.fillMaxSize(),
-        color = DarkBackground
+        color = MaterialTheme.colorScheme.background
     ) {
         Column(
             modifier = Modifier
@@ -60,7 +66,7 @@ fun SettingsScreen(
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(16.dp),
                 colors = CardDefaults.cardColors(
-                    containerColor = CardSurface
+                    containerColor = MaterialTheme.colorScheme.surface
                 )
             ) {
                 Column(
@@ -70,7 +76,7 @@ fun SettingsScreen(
                         text = stringResource(R.string.settings_account),
                         fontSize = 14.sp,
                         fontWeight = FontWeight.SemiBold,
-                        color = HackerGreen
+                        color = MaterialTheme.colorScheme.secondary
                     )
 
                     Spacer(modifier = Modifier.height(16.dp))
@@ -93,7 +99,7 @@ fun SettingsScreen(
                                 modifier = Modifier
                                     .size(54.dp)
                                     .clip(CircleShape)
-                                    .background(DarkBackground),
+                                    .background(MaterialTheme.colorScheme.background),
                                 contentAlignment = Alignment.Center
                             ) {
                                 Icon(
@@ -163,7 +169,7 @@ fun SettingsScreen(
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(16.dp),
                 colors = CardDefaults.cardColors(
-                    containerColor = CardSurface
+                    containerColor = MaterialTheme.colorScheme.surface
                 )
             ) {
                 Column(
@@ -173,7 +179,7 @@ fun SettingsScreen(
                         text = stringResource(R.string.settings_language),
                         fontSize = 14.sp,
                         fontWeight = FontWeight.SemiBold,
-                        color = HackerGreen
+                        color = MaterialTheme.colorScheme.secondary
                     )
 
                     Spacer(modifier = Modifier.height(16.dp))
@@ -183,7 +189,7 @@ fun SettingsScreen(
                         horizontalArrangement = Arrangement.spacedBy(12.dp)
                     ) {
                         val currentLang = AppCompatDelegate.getApplicationLocales()[0]?.language ?: "en"
-                        var isFrench by remember { mutableStateOf(currentLang.contains("fr", ignoreCase = true)) }
+                        val isFrench = currentLang.contains("fr", ignoreCase = true)
 
                         // English Button
                         Button(
@@ -196,8 +202,8 @@ fun SettingsScreen(
                                 .height(45.dp),
                             shape = RoundedCornerShape(10.dp),
                             colors = ButtonDefaults.buttonColors(
-                                containerColor = if (!isFrench) HackerGreen else DarkBackground,
-                                contentColor = if (!isFrench) DarkBackground else Color.White
+                                containerColor = if (!isFrench) MaterialTheme.colorScheme.secondary else MaterialTheme.colorScheme.background,
+                                contentColor = if (!isFrench) MaterialTheme.colorScheme.background else Color.White
                             )
                         ) {
                             Text(
@@ -218,8 +224,8 @@ fun SettingsScreen(
                                 .height(45.dp),
                             shape = RoundedCornerShape(10.dp),
                             colors = ButtonDefaults.buttonColors(
-                                containerColor = if (isFrench) HackerGreen else DarkBackground,
-                                contentColor = if (isFrench) DarkBackground else Color.White
+                                containerColor = if (isFrench) MaterialTheme.colorScheme.secondary else MaterialTheme.colorScheme.background,
+                                contentColor = if (isFrench) MaterialTheme.colorScheme.background else Color.White
                             )
                         ) {
                             Text(
@@ -231,9 +237,80 @@ fun SettingsScreen(
                     }
                 }
             }
+
+            // Theme Selection Card
+            Card(
+                modifier = Modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(16.dp),
+                colors = CardDefaults.cardColors(
+                    containerColor = MaterialTheme.colorScheme.surface
+                )
+            ) {
+                Column(
+                    modifier = Modifier.padding(16.dp)
+                ) {
+                    Text(
+                        text = "App Theme",
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        color = MaterialTheme.colorScheme.secondary
+                    )
+
+                    Spacer(modifier = Modifier.height(16.dp))
+
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(12.dp)
+                    ) {
+                        val isGreenSelected = currentTheme == AppTheme.GREEN
+                        val isPinkSelected = currentTheme == AppTheme.PINK
+
+                        // Green Theme Button
+                        Button(
+                            onClick = {
+                                viewModel.changeTheme(AppTheme.GREEN)
+                            },
+                            modifier = Modifier
+                                .weight(1f)
+                                .height(45.dp),
+                            shape = RoundedCornerShape(10.dp),
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = if (isGreenSelected) MaterialTheme.colorScheme.secondary else MaterialTheme.colorScheme.background,
+                                contentColor = if (isGreenSelected) MaterialTheme.colorScheme.background else Color.White
+                            )
+                        ) {
+                            Text(
+                                text = "Green",
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 14.sp
+                            )
+                        }
+
+                        // Pink Theme Button
+                        Button(
+                            onClick = {
+                                viewModel.changeTheme(AppTheme.PINK)
+                            },
+                            modifier = Modifier
+                                .weight(1f)
+                                .height(45.dp),
+                            shape = RoundedCornerShape(10.dp),
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = if (isPinkSelected) MaterialTheme.colorScheme.secondary else MaterialTheme.colorScheme.background,
+                                contentColor = if (isPinkSelected) MaterialTheme.colorScheme.background else Color.White
+                            )
+                        ) {
+                            Text(
+                                text = "Pink",
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 14.sp
+                            )
+                        }
+                    }
+                }
+            }
         }
     }
-
     if (showDialog) {
         AlertDialog(
             onDismissRequest = { showDialog = false },

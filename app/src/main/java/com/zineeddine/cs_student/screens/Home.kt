@@ -20,6 +20,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
@@ -77,7 +78,7 @@ fun HomeScreen(
         LazyColumn(
             modifier = modifier
                 .fillMaxSize()
-                .background(DarkBackground)
+                .background(MaterialTheme.colorScheme.background)
                 .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
@@ -144,7 +145,7 @@ fun StudySpaceCard(
         modifier = modifier.fillMaxWidth(),
         shape = RoundedCornerShape(20.dp),
         colors = CardDefaults.cardColors(
-            containerColor = Color(0xFF142216)
+            containerColor = MaterialTheme.colorScheme.onBackground
         )
     ) {
         Column(
@@ -161,11 +162,11 @@ fun StudySpaceCard(
                     modifier = Modifier
                         .size(8.dp)
                         .clip(CircleShape)
-                        .background(HackerGreen)
+                        .background(MaterialTheme.colorScheme.secondary)
                 )
                 Text(
                     text = stringResource(R.string.study_space_tag),
-                    color = HackerGreen,
+                    color = MaterialTheme.colorScheme.secondary,
                     fontSize = 12.sp,
                     fontWeight = FontWeight.Bold
                 )
@@ -182,7 +183,7 @@ fun StudySpaceCard(
                         append(" ")
 
                     }
-                    withStyle(style = SpanStyle(color = HackerGreen)) {
+                    withStyle(style = SpanStyle(color = MaterialTheme.colorScheme.secondary)) {
                         append(stringResource(R.string.computer_scientist))
                     }
                 },
@@ -201,13 +202,14 @@ fun StudySpaceCard(
             Button(
                 onClick = buttonOnClick,
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = HackerGreen,
+                    containerColor = MaterialTheme.colorScheme.secondary,
                     contentColor = Color.Black
                 ),
                 shape = RoundedCornerShape(12.dp)
             ) {
                 Text(
                     text = stringResource(R.string.explore_modules),
+                    color = MaterialTheme.colorScheme.onPrimary,
                     fontWeight = FontWeight.Bold,
                     fontSize = 14.sp
                 )
@@ -228,7 +230,7 @@ fun AnnouncementCard(
         modifier = modifier.fillMaxWidth(),
         shape = RoundedCornerShape(16.dp),
         colors = CardDefaults.cardColors(
-            containerColor = CardSurface
+            containerColor = MaterialTheme.colorScheme.surface
         )
     ) {
         Column(

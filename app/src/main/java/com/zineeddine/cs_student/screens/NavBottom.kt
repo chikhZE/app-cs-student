@@ -8,6 +8,7 @@ import androidx.compose.material.icons.filled.LibraryBooks
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.StackedLineChart
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
@@ -32,7 +33,7 @@ fun NavBottom(
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
     NavigationBar(
-        containerColor = DarkBackground,
+        containerColor = MaterialTheme.colorScheme.background,
         tonalElevation = 8.dp
     ) {
         NavigationBarItem(
@@ -47,7 +48,7 @@ fun NavBottom(
             icon = { Icon(Icons.Filled.Home, contentDescription = null, tint = Color.White) },
             label = { Text(text = stringResource(R.string.nav_home) , color = Color.White) },
             colors = NavigationBarItemDefaults.colors(
-                indicatorColor = TechBlue
+                indicatorColor = MaterialTheme.colorScheme.primary
             )
         )
         NavigationBarItem(
@@ -62,7 +63,7 @@ fun NavBottom(
             icon = { Icon(Icons.Filled.LibraryBooks, contentDescription = null, tint = Color.White) },
             label = { Text(text = stringResource(R.string.nav_modules) , color = Color.White) },
             colors = NavigationBarItemDefaults.colors(
-                indicatorColor = TechBlue
+                indicatorColor = MaterialTheme.colorScheme.primary
             )
         )
         NavigationBarItem(
@@ -77,7 +78,7 @@ fun NavBottom(
             icon = { Icon(Icons.Filled.CalendarToday, contentDescription = null, tint = Color.White) },
             label = { Text(text = stringResource(R.string.nav_schedule) , color = Color.White) },
             colors = NavigationBarItemDefaults.colors(
-                indicatorColor = TechBlue
+                indicatorColor = MaterialTheme.colorScheme.primary
             )
         )
         if(isAdmin) {
@@ -97,7 +98,7 @@ fun NavBottom(
                 icon = { Icon(Icons.Filled.Add, contentDescription = null, tint = Color.White) },
                 label = { Text(text = stringResource(R.string.nav_add) , color = Color.White) },
                 colors = NavigationBarItemDefaults.colors(
-                    indicatorColor = TechBlue
+                    indicatorColor = MaterialTheme.colorScheme.primary
                 )
             )
         }
@@ -117,7 +118,7 @@ fun NavBottom(
             icon = { Icon(Icons.Filled.Settings, contentDescription = null, tint = Color.White) },
             label = { Text(text = stringResource(R.string.nav_settings) , color = Color.White) },
             colors = NavigationBarItemDefaults.colors(
-                indicatorColor = TechBlue
+                indicatorColor = MaterialTheme.colorScheme.primary
             )
         )
     }

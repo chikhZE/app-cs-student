@@ -25,7 +25,6 @@ import com.zineeddine.cs_student.ui.theme.HackerGreen
 
 // Define the colors based on the design system
 val DarkGreyField = Color(0xFF222222)
-val NeonGreen = HackerGreen
 val CrispWhite = Color(0xFFFFFFFF)
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -56,7 +55,7 @@ fun AddContentScreen(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(DarkBackground)
+            .background(MaterialTheme.colorScheme.background)
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -79,13 +78,13 @@ fun AddContentScreen(
                             selectedType = ""
                             selectedDay = ""
                         },
-                    color = if (selectedContentType == type) NeonGreen else DarkGreyField,
+                    color = if (selectedContentType == type) MaterialTheme.colorScheme.secondary else DarkGreyField,
                     shape = RoundedCornerShape(25.dp),
                 ) {
                     Box(contentAlignment = Alignment.Center) {
                         Text(
                             text = type,
-                            color = if (selectedContentType == type) DarkBackground else CrispWhite,
+                            color = if (selectedContentType == type) MaterialTheme.colorScheme.background else CrispWhite,
                             fontWeight = FontWeight.Bold,
                             fontSize = 16.sp,
                             textAlign = TextAlign.Center
@@ -146,12 +145,12 @@ fun AddContentScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(55.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = NeonGreen),
+                colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary),
                 shape = RoundedCornerShape(27.5.dp)
             ) {
                 Text(
                     text = stringResource(R.string.post_content),
-                    color = DarkBackground,
+                    color = MaterialTheme.colorScheme.background,
                     fontWeight = FontWeight.Bold,
                     fontSize = 18.sp
                 )
@@ -203,7 +202,7 @@ fun AddContentScreen(
                         onPostClick()
                     }
                 ) {
-                    Text(text = stringResource(R.string.post), color = NeonGreen, fontWeight = FontWeight.Bold)
+                    Text(text = stringResource(R.string.post), color = MaterialTheme.colorScheme.secondary, fontWeight = FontWeight.Bold)
                 }
             },
             dismissButton = {
@@ -392,9 +391,9 @@ fun FormTextField(
         colors = OutlinedTextFieldDefaults.colors(
             focusedContainerColor = DarkGreyField,
             unfocusedContainerColor = DarkGreyField,
-            focusedBorderColor = NeonGreen,
+            focusedBorderColor = MaterialTheme.colorScheme.secondary,
             unfocusedBorderColor = DarkGreyField,
-            cursorColor = NeonGreen
+            cursorColor = MaterialTheme.colorScheme.secondary
         ),
         singleLine = !isMultiline,
         minLines = if (isMultiline) 3 else 1
@@ -432,9 +431,9 @@ fun FormDropdownSelector(
             colors = OutlinedTextFieldDefaults.colors(
                 focusedContainerColor = DarkGreyField,
                 unfocusedContainerColor = DarkGreyField,
-                focusedBorderColor = NeonGreen,
+                focusedBorderColor = MaterialTheme.colorScheme.secondary,
                 unfocusedBorderColor = DarkGreyField,
-                cursorColor = NeonGreen
+                cursorColor = MaterialTheme.colorScheme.secondary
             )
         )
         ExposedDropdownMenu(

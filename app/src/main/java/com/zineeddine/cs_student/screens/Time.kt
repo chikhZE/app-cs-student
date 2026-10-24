@@ -30,6 +30,7 @@ import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -109,7 +110,7 @@ fun ScheduleScreen(
     }
     Surface(
         modifier = modifier.fillMaxSize(),
-        color = DarkBackground
+        color = MaterialTheme.colorScheme.background
     ) {
         PullToRefreshBox(
             isRefreshing = isRefreshing,
@@ -145,8 +146,8 @@ fun ScheduleScreen(
                                 )
                             },
                             colors = FilterChipDefaults.filterChipColors(
-                                selectedContainerColor = HackerGreen,
-                                containerColor = CardSurface
+                                selectedContainerColor = MaterialTheme.colorScheme.secondary,
+                                containerColor = MaterialTheme.colorScheme.surface
                             )
                         )
                     }
@@ -202,7 +203,7 @@ fun ScheduleScreen(
                     Text(text = stringResource(R.string.cancel), color = Color.White.copy(alpha = 0.7f))
                 }
             },
-            containerColor = CardSurface,
+            containerColor = MaterialTheme.colorScheme.surface,
             shape = RoundedCornerShape(16.dp)
         )
     }
@@ -230,7 +231,7 @@ fun ScheduleCard(
     Card(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(16.dp),
-        colors = CardDefaults.cardColors(containerColor = CardSurface),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
     ) {
         Column(
