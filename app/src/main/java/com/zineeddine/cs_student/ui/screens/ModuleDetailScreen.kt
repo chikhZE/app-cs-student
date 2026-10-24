@@ -29,7 +29,7 @@ val CardBackground = Color(0xFF1E1E1E)
 val IconBoxBackground = Color(0xFF282828)
 val NeonGreen = Color(0xFF00FF66)
 val TextWhite = Color(0xFFEEEEEE)
-val IconColor = Color(0xFFB0B0B0)
+val IconColor = Color(0xFFB0B0B0) 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

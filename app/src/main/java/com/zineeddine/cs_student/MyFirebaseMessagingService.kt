@@ -3,6 +3,7 @@ package com.zineeddine.cs_student
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Intent
+import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import com.google.firebase.messaging.FirebaseMessagingService
@@ -12,10 +13,13 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
     override fun onNewToken(token: String) {
         super.onNewToken(token)
+        Log.d("FCM", "Refreshed FCM registration token: $token")
     }
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         super.onMessageReceived(remoteMessage)
+
+        Log.d("FCM", "Message received from: ${remoteMessage.from}")
 
         val title = remoteMessage.notification?.title ?: remoteMessage.data["title"] ?: "CS Student Update"
         val body = remoteMessage.notification?.body ?: remoteMessage.data["body"] ?: "You have a new notification"
@@ -39,7 +43,8 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             .setContentText(body)
             .setAutoCancel(true)
             .setContentIntent(pendingIntent)
-            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
+            .setDefaults(NotificationCompat.DEFAULT_ALL)
 
         val notificationManager = ContextCompat.getSystemService(this, NotificationManager::class.java)
         notificationManager?.notify(System.currentTimeMillis().toInt(), notificationBuilder.build())
